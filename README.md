@@ -27,6 +27,6 @@ Installation:
 
 Usage:
 
-Ripple Drawable
+Ripple Drawable<br />
 For more information about ripple drawables visit https://developer.android.com/reference/android/graphics/drawable/RippleDrawable.html
 
