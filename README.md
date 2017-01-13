@@ -6,7 +6,7 @@ Preview
 
 ![lollipopdrawablesexample](https://cloud.githubusercontent.com/assets/5245027/21935050/ce4c0c1e-d9a3-11e6-9506-181e3190cae6.gif)
 
-Installation:
+# Installation
 
     Step 1. Add the JitPack repository to your build file
     
@@ -25,8 +25,11 @@ Installation:
 	        compile 'com.github.robertapengelly:android-lollipop-drawables:1.0.0'
 	}
 
-Usage:
+# Usage
 
 Ripple Drawable<br />
 For more information about ripple drawables visit https://developer.android.com/reference/android/graphics/drawable/RippleDrawable.html
 
+    Styleing
+    
+    
