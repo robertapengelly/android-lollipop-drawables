@@ -30,6 +30,26 @@ Preview
 Ripple Drawable<br />
 For more information about ripple drawables visit https://developer.android.com/reference/android/graphics/drawable/RippleDrawable.html
 
+    Styling without the Android Support Library add the following styles
+    
+    Pre-Honycomb devices (values/styles.xml)
+    
+        <style name="AppTheme" parent="@android:style/Theme.NoTitleBar">
+            <item name="colorControlHighlight">@color/ripple_material_dark</item> <!-- you can set colorControlHighlight to any other color. -->
+        </style>
+    
+    Honycomb and newer (values-v11/styles.xml)
+    
+        <style name="AppTheme" parent="@android:style/Theme.Holo.NoActionBar">
+            <item name="colorControlHighlight">@color/ripple_material_dark</item> <!-- you can set colorControlHighlight to any other color. -->
+        </style>
+    
+    Starting with Lollipop colorControlHighlight is already defined. You can edit colorControlHighlight to customize your views further. (values-v21/styles.xml)
+    
+        <style name="AppTheme" parent="@android:style/Theme.Material.NoActionBar">
+            <item name="android:colorControlHighlight">@color/ripple_material_dark</item> <!-- you can set colorControlHighlight to any other color. -->
+        </style>
+
 ProgressBar drawables
 
     Styling without the Android Support Library add the following styles
