@@ -52,7 +52,7 @@ ProgressBar drawables
     
         <style name="AppTheme" parent="@android:style/Theme.Material.NoActionBar">
             <item name="android:colorAccent">@color/accent_material_dark</item> <!-- optional. you can set colorAccent to any other color. -->
-            <item name="android:colorControlActivated">?attr/colorAccent</item> <!-- you can set colorControlActivated to any other color if you don't want to include colorAccent. -->
+            <item name="android:colorControlActivated">@color/controlColorActivated</item> <!-- optional. colorControlActivated already has a value of ?android:attr/colorAccent so you can set colorControlActivated to any other color. -->
         </style>
     
     Adding a ProgressBar widget (layout/activity_main.xml)
