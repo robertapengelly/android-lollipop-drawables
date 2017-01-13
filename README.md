@@ -47,7 +47,7 @@ For more information about ripple drawables visit https://developer.android.com/
     Starting with Lollipop colorControlHighlight is already defined. You can edit colorControlHighlight to customize your views further. (values-v21/styles.xml)
     
         <style name="AppTheme" parent="@android:style/Theme.Material.NoActionBar">
-            <item name="android:colorControlHighlight">@color/ripple_material_dark</item> <!-- you can set colorControlHighlight to any other color. -->
+            <item name="android:colorControlHighlight">@color/ripple_material_dark</item> <!-- optional. you can set colorControlHighlight to any other color. -->
         </style>
     
     Defining you ripple drawales in xml
@@ -74,6 +74,18 @@ For more information about ripple drawables visit https://developer.android.com/
             <item android:drawable="@android:color/white" android:id="@android:id/mask" />
         
         </ripple>
+    
+    Applying drawable to view
+    
+        import robertapengelly.support.graphics.drawable.LollipopDrawable;
+        import robertapengelly.support.graphics.drawable.LollipopDrawablesCompat;
+        import robertapengelly.support.view.DrawableHotspotTouch;
+        
+        View view = findViewById(R.id.your_view);
+        view.setBackgroundDrawable(LollipopDrawablesCompat.getDrawable(getResources(), R.drawable.ripple, getTheme()));
+        view.setClickable(true);
+        view.setOnClickListener(this);
+        view.setOnTouchListener(new DrawableHotspotTouch((LollipopDrawable) view.getBackground()));
 
 ProgressBar drawables
 
