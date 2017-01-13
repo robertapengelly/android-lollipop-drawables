@@ -32,9 +32,7 @@ For more information about ripple drawables visit https://developer.android.com/
 
 ProgressBar drawables
 
-    Styling
-    
-    Without the Android Support Library add the following styles
+    Styling without the Android Support Library add the following styles
     
     Pre-Honycomb devices (values/styles.xml)
     
