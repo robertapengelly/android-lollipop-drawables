@@ -1,4 +1,4 @@
-# android-lollipop-drawables
+# Android Lollipop Drawables
 
 ![lollipopdrawablesexample](https://cloud.githubusercontent.com/assets/5245027/21935050/ce4c0c1e-d9a3-11e6-9506-181e3190cae6.gif)
 
