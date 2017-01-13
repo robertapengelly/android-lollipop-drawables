@@ -50,7 +50,7 @@ For more information about ripple drawables visit https://developer.android.com/
             <item name="android:colorControlHighlight">@color/ripple_material_dark</item> <!-- optional. you can set colorControlHighlight to any other color. -->
         </style>
     
-    Defining you ripple drawales in xml
+    Defining your ripple drawales in xml
     
     Pre-Lollipop (drawable/ripple.xml)
     
