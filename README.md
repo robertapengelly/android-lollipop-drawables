@@ -1,10 +1,8 @@
 # android-lollipop-drawables
 
-Backported material drawables for use on pre-lollipop devices. Supports Android 2.3 API 9 (GINGERBREAD) and up.
-
-Example
-
 ![lollipopdrawablesexample](https://cloud.githubusercontent.com/assets/5245027/21935050/ce4c0c1e-d9a3-11e6-9506-181e3190cae6.gif)
+
+Backported material drawables for use on pre-lollipop devices. Supports Android 2.3 API 9 (GINGERBREAD) and up.
 
 For more information about ripple drawables visit https://developer.android.com/reference/android/graphics/drawable/RippleDrawable.html
 
