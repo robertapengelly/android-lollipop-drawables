@@ -164,6 +164,6 @@ ProgressBar drawables
         
         import android.widget.ProgressBar;
         
-        ProgressBar progressbar = (ProgressBar) findViewById(R.id._progressbar);
+        ProgressBar progressbar = (ProgressBar) findViewById(R.id.progressbar);
         progressbar.setIndeterminateDrawable(d);
         progressbar.setProgressDrawable(d);
