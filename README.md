@@ -30,6 +30,22 @@ Preview
 Ripple Drawable<br />
 For more information about ripple drawables visit https://developer.android.com/reference/android/graphics/drawable/RippleDrawable.html
 
-    Styleing
+ProgressBar circular progress drawable
+
+    Styling
     
+    Without the Android Support Library add the following styles
     
+    Pre-Honycomb devices
+    
+        <style name="AppTheme" parent="@android:style/Theme.NoTitleBar">
+	    <item name="colorAccent">@color/accent_material_dark</item> <!-- optional. you can set colorAccent to any other color -->
+            <item name="colorControlActivated">?attr/colorAccent</item> <!-- you can set colorControlActivated to any other color if you don't want to include colorAccent.-->
+	</style>
+    
+    Honycomb and newer
+    
+        <style name="AppTheme" parent="@android:style/Theme.Holo.NoActionBar">
+	    <item name="colorAccent">@color/accent_material_dark</item> <!-- optional. you can set colorAccent to any other color -->
+            <item name="colorControlActivated">?attr/colorAccent</item> <!-- you can set colorControlActivated to any other color if you don't want to include colorAccent.-->
+	</style>
