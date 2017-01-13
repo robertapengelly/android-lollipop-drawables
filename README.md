@@ -84,7 +84,6 @@ For more information about ripple drawables visit https://developer.android.com/
         View view = findViewById(R.id.your_view);
         view.setBackgroundDrawable(LollipopDrawablesCompat.getDrawable(getResources(), R.drawable.ripple, getTheme()));
         view.setClickable(true);
-        view.setOnClickListener(this);
         view.setOnTouchListener(new DrawableHotspotTouch((LollipopDrawable) view.getBackground()));
 
 ProgressBar drawables
