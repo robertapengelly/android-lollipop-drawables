@@ -69,7 +69,7 @@ For more information about ripple drawables visit https://developer.android.com/
         <?xml version="1.0" encoding="utf-8" ?>
         <ripple xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
-            android:color="?aandroid:ttr/colorControlActivated">
+            android:color="?android:ttr/colorControlActivated">
             
             <item android:drawable="@android:color/white" android:id="@android:id/mask" />
         
@@ -116,6 +116,7 @@ ProgressBar drawables
     
     CircularProgressBar
     
+        <?xml version="1.0" encoding="utf-8" ?>
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_height="match_parent"
@@ -132,6 +133,7 @@ ProgressBar drawables
     
     HorizontalProgressBar
     
+        <?xml version="1.0" encoding="utf-8" ?>
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_height="match_parent"
