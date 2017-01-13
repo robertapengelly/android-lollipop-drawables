@@ -41,11 +41,11 @@ ProgressBar circular progress drawable
         <style name="AppTheme" parent="@android:style/Theme.NoTitleBar">
 	    <item name="colorAccent">@color/accent_material_dark</item> <!-- optional. you can set colorAccent to any other color -->
             <item name="colorControlActivated">?attr/colorAccent</item> <!-- you can set colorControlActivated to any other color if you don't want to include colorAccent.-->
-	</style>
+        </style>
     
     Honycomb and newer
     
         <style name="AppTheme" parent="@android:style/Theme.Holo.NoActionBar">
 	    <item name="colorAccent">@color/accent_material_dark</item> <!-- optional. you can set colorAccent to any other color -->
             <item name="colorControlActivated">?attr/colorAccent</item> <!-- you can set colorControlActivated to any other color if you don't want to include colorAccent.-->
-	</style>
+        </style>
