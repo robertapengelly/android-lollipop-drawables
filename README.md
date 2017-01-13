@@ -30,7 +30,7 @@ Preview
 Ripple Drawable<br />
 For more information about ripple drawables visit https://developer.android.com/reference/android/graphics/drawable/RippleDrawable.html
 
-ProgressBar circular progress drawable
+ProgressBar drawables
 
     Styling
     
@@ -48,4 +48,11 @@ ProgressBar circular progress drawable
         <style name="AppTheme" parent="@android:style/Theme.Holo.NoActionBar">
             <item name="colorAccent">@color/accent_material_dark</item> <!-- optional. you can set colorAccent to any other color. -->
             <item name="colorControlActivated">?attr/colorAccent</item> <!-- you can set colorControlActivated to any other color if you don't want to include colorAccent. -->
+        </style>
+    
+    Starting with Lollipop there are already colorAccent and colorControlActivated defined. You can edit colorAccent or colorControlActivated to customize your views.
+    
+        <style name="AppTheme" parent="@android:style/Theme.Material.NoActionBar">
+            <item name="android:colorAccent">@color/accent_material_dark</item> <!-- optional. you can set colorAccent to any other color. -->
+            <item name="android:colorControlActivated">?attr/colorAccent</item> <!-- you can set colorControlActivated to any other color if you don't want to include colorAccent. -->
         </style>
