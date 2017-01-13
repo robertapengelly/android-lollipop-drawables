@@ -49,6 +49,31 @@ For more information about ripple drawables visit https://developer.android.com/
         <style name="AppTheme" parent="@android:style/Theme.Material.NoActionBar">
             <item name="android:colorControlHighlight">@color/ripple_material_dark</item> <!-- you can set colorControlHighlight to any other color. -->
         </style>
+    
+    Defining you ripple drawales in xml
+    
+    Pre-Lollipop (drawable/ripple.xml)
+    
+        <?xml version="1.0" encoding="utf-8" ?>
+        <ripple xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:color="?attr/colorControlActivated"
+            tools:targetApi="lollipop">
+            
+            <item android:drawable="@android:color/white" android:id="@android:id/mask" />
+        
+        </ripple>
+    
+    Lollipop and newer (drawable-v21/ripple.xml)
+    
+        <?xml version="1.0" encoding="utf-8" ?>
+        <ripple xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:color="?aandroid:ttr/colorControlActivated">
+            
+            <item android:drawable="@android:color/white" android:id="@android:id/mask" />
+        
+        </ripple>
 
 ProgressBar drawables
 
