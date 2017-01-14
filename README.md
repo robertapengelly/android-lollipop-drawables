@@ -35,13 +35,13 @@ For more information about ripple drawables visit https://developer.android.com/
     Pre-Honycomb devices (values/styles.xml)
     
         <style name="AppTheme" parent="@android:style/Theme.NoTitleBar">
-            <item name="colorControlHighlight">?attr/colorAccent</item> <!-- you can set colorControlHighlight to any other color if you don't want to include colorAccent. -->
+            <item name="colorControlHighlight">?attr/colorAccent</item> <!-- you can set colorControlHighlight to any other color. -->
         </style>
     
     Honycomb and newer (values-v11/styles.xml)
     
         <style name="AppTheme" parent="@android:style/Theme.Holo.NoActionBar">
-            <item name="colorControlHighlight">?attr/colorAccent</item> <!-- you can set colorControlHighlight to any other color if you don't want to include colorAccent. -->
+            <item name="colorControlHighlight">?attr/colorAccent</item> <!-- you can set colorControlHighlight to any other color. -->
         </style>
     
     Starting with Lollipop colorAccent and colorControlActivated are already defined. You can edit colorControlHighlight views further. (values-v21/styles.xml)
