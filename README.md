@@ -35,19 +35,22 @@ For more information about ripple drawables visit https://developer.android.com/
     Pre-Honycomb devices (values/styles.xml)
     
         <style name="AppTheme" parent="@android:style/Theme.NoTitleBar">
-            <item name="colorControlHighlight">@color/ripple_material_dark</item> <!-- you can set colorControlHighlight to any other color. -->
+            <item name="colorAccent">@color/accent_material_dark</item> <!-- optional. you can set colorAccent to any other color. -->
+            <item name="colorControlActivated">?attr/colorAccent</item> <!-- you can set colorControlActivated to any other color if you don't want to include colorAccent. -->
         </style>
     
     Honycomb and newer (values-v11/styles.xml)
     
         <style name="AppTheme" parent="@android:style/Theme.Holo.NoActionBar">
-            <item name="colorControlHighlight">@color/ripple_material_dark</item> <!-- you can set colorControlHighlight to any other color. -->
+            <item name="colorAccent">@color/accent_material_dark</item> <!-- optional. you can set colorAccent to any other color. -->
+            <item name="colorControlActivated">?attr/colorAccent</item> <!-- you can set colorControlActivated to any other color if you don't want to include colorAccent. -->
         </style>
     
-    Starting with Lollipop colorControlHighlight is already defined. You can edit colorControlHighlight to customize your views further. (values-v21/styles.xml)
+    Starting with Lollipop colorAccent and colorControlActivated are already defined. You can edit colorAccent or colorControlActivated to customize your views further. (values-v21/styles.xml)
     
         <style name="AppTheme" parent="@android:style/Theme.Material.NoActionBar">
-            <item name="android:colorControlHighlight">@color/ripple_material_dark</item> <!-- optional. you can set colorControlHighlight to any other color. -->
+            <item name="android:colorAccent">@color/accent_material_dark</item> <!-- optional. you can set colorAccent to any other color. -->
+            <item name="android:colorControlActivated">@color/controlColorActivated</item> <!-- optional. colorControlActivated already has a value of ?android:attr/colorAccent so you can set colorControlActivated to any other color. -->
         </style>
     
     Defining your ripple drawales in xml
