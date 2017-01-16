@@ -30,6 +30,8 @@ public class LollipopDrawablesCompat {
     private static final LongSparseArray<WeakReference<Drawable.ConstantState>> sDrawableCache = new LongSparseArray<>();
     
     static {
+        registerDrawable(GradientDrawable.class, "shape");
+        registerDrawable(InsetDrawable.class, "inset");
         registerDrawable(RippleDrawable.class, "ripple");
     }
     

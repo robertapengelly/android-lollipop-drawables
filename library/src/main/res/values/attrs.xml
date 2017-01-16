@@ -17,6 +17,155 @@
     <!-- Extra attribute for RippleDrawable, to add support of scroll containers -->
     <attr format="boolean" name="isInScrollContainer" />
     
+    <!-- Describes the corners for the rectangle shape of a GradientDrawable.
+         This can be used to render rounded corners. -->
+    <declare-styleable name="DrawableCorners">
+    
+        <!-- Radius of the bottom left corner. -->
+        <attr name="android:bottomLeftRadius" />
+        
+        <!-- Radius of the bottom right corner. -->
+        <attr name="android:bottomRightRadius" />
+        
+        <!-- Defines the radius of the four corners. -->
+        <attr name="android:radius" />
+        
+        <!-- Radius of the top left corner. -->
+        <attr name="android:topLeftRadius" />
+        
+        <!-- Radius of the top right corner. -->
+        <attr name="android:topRightRadius" />
+    
+    </declare-styleable>
+    
+    <!-- Drawable used to render a geometric shape, with a gradient or a solid color. -->
+    <declare-styleable name="GradientDrawable">
+    
+        <!-- Enables or disables dithering. -->
+        <attr name="android:dither" />
+        
+        <!-- Inner radius of the ring. When defined, innerRadiusRatio is ignored. -->
+        <attr name="android:innerRadius" />
+        
+        <!-- Inner radius of the ring expressed as a ratio of the ring's width. For instance,
+             if innerRadiusRatio=9, then the inner radius equals the ring's width divided by 9.
+             This value is ignored if innerRadius is defined. Default value is 9. -->
+        <attr name="android:innerRadiusRatio" />
+        
+        <!-- Indicates what shape to fill with a gradient. -->
+        <attr name="android:shape" />
+        
+        <!-- Thickness of the ring. When defined, thicknessRatio is ignored. -->
+        <attr name="android:thickness" />
+        
+        <!-- Thickness of the ring expressed as a ratio of the ring's width. For instance,
+             if thicknessRatio=3, then the thickness equals the ring's width divided by 3.
+             This value is ignored if innerRadius is defined. Default value is 3. -->
+        <attr name="android:thicknessRatio" />
+        
+        <!-- Indicates whether the drawable's level affects the way the gradient is drawn. -->
+        <attr name="android:useLevel" />
+        
+        <!-- Indicates whether the drawable should intially be visible. -->
+        <attr name="android:visible" />
+    
+    </declare-styleable>
+    
+    <!-- Used to describe the gradient used to fill the shape of a GradientDrawable. -->
+    <declare-styleable name="GradientDrawableGradient">
+    
+        <!-- Angle of the gradient. -->
+        <attr name="android:angle" />
+        
+        <!-- Optional center color. For linear gradients, use centerX or centerY
+             to place the center color. -->
+        <attr name="android:centerColor" />
+        
+        <!-- X coordinate of the origin of the gradient within the shape. -->
+        <attr name="android:centerX" />
+        
+        <!-- Y coordinate of the origin of the gradient within the shape. -->
+        <attr name="android:centerY" />
+        
+        <!-- End color of the gradient. -->
+        <attr name="android:endColor" />
+        
+        <!-- Radius of the gradient, used only with radial gradient. -->
+        <attr name="android:gradientRadius" />
+        
+        <!-- Start color of the gradient. -->
+        <attr name="android:startColor" />
+        
+        <!-- Type of gradient. The default type is linear. -->
+        <attr name="android:type" />
+        
+        <attr name="android:useLevel" />
+    
+    </declare-styleable>
+    
+    <!-- Used to specify the optional padding of a GradientDrawable. -->
+    <declare-styleable name="GradientDrawablePadding">
+    
+        <!-- Amount of bottom padding inside the gradient shape. -->
+        <attr name="android:bottom" />
+        
+        <!-- Amount of left padding inside the gradient shape. -->
+        <attr name="android:left" />
+        
+        <!-- Amount of right padding inside the gradient shape. -->
+        <attr name="android:right" />
+        
+        <!-- Amount of top padding inside the gradient shape. -->
+        <attr name="android:top" />
+    
+    </declare-styleable>
+    
+    <!-- Used to specify the size of the shape for GradientDrawable. -->
+    <declare-styleable name="GradientDrawableSize">
+    
+        <!-- Height of the gradient shape. -->
+        <attr name="android:height" />
+        
+        <!-- Width of the gradient shape. -->
+        <attr name="android:width" />
+    
+    </declare-styleable>
+    
+    <!-- Used to fill the shape of GradientDrawable with a solid color. -->
+    <declare-styleable name="GradientDrawableSolid">
+    
+        <!-- Solid color for the gradient shape. -->
+        <attr name="android:color" />
+    
+    </declare-styleable>
+    
+    <!-- Used to describe the optional stroke of a GradientDrawable. -->
+    <declare-styleable name="GradientDrawableStroke">
+    
+        <!-- Color of the gradient shape's stroke. -->
+        <attr name="android:color" />
+        
+        <!-- Gap between dashes in the stroke. -->
+        <attr name="android:dashGap" />
+        
+        <!-- Length of a dash in the stroke. -->
+        <attr name="android:dashWidth" />
+        
+        <!-- Width of the gradient shape's stroke. -->
+        <attr name="android:width" />
+    
+    </declare-styleable>
+    
+    <declare-styleable name="InsetDrawable">
+        <attr name="android:drawable" />
+        <attr name="android:inset" />
+        <attr name="android:insetBottom" />
+        <attr name="android:insetLeft" />
+        <attr name="android:insetRight" />
+        <attr name="android:insetTop" />
+        <attr name="android:visible" />
+    </declare-styleable>
+    
     <!-- Drawable used to render several drawables stacked on top of each other.
          Each child drawable can be controlled individually. -->
     <declare-styleable name="LayerDrawable">
@@ -68,6 +217,48 @@
     
         <!-- The color to use for ripple effects. This attribute is required. -->
         <attr name="android:color"/>
+    
+    </declare-styleable>
+    
+    <!-- Drawable used to draw shapes. -->
+    <declare-styleable name="ShapeDrawable">
+    
+        <!-- Defines the color of the shape. -->
+        <attr name="android:color" />
+        
+        <!-- Enables or disables dithering. -->
+        <attr name="android:dither" />
+        
+        <!-- Defines the height of the shape. -->
+        <attr name="android:height" />
+        
+        <!-- If set, specifies the color to apply to the drawable as a tint. By default,
+             no tint is applied. May be a color state list. -->
+        <attr name="android:tint" />
+        
+        <!-- When a tint color is set, specifies its Porter-Duff blending mode. The
+             default value is src_in, which treats the drawable as an alpha mask. -->
+        <attr name="android:tintMode" />
+        
+        <!-- Defines the width of the shape. -->
+        <attr name="android:width" />
+    
+    </declare-styleable>
+    
+    <!-- Defines the padding of a ShapeDrawable. -->
+    <declare-styleable name="ShapeDrawablePadding">
+    
+        <!-- Bottom padding. -->
+        <attr name="android:bottom" />
+        
+        <!-- Left padding. -->
+        <attr name="android:left" />
+        
+        <!-- Right padding. -->
+        <attr name="android:right" />
+        
+        <!-- Top padding. -->
+        <attr name="android:top" />
     
     </declare-styleable>
 

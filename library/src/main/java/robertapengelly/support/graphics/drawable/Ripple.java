@@ -2,6 +2,7 @@ package robertapengelly.support.graphics.drawable;
 
 import  android.graphics.Canvas;
 import  android.graphics.Paint;
+import  android.graphics.Paint.Style;
 import  android.graphics.Rect;
 import  android.view.animation.Interpolator;
 import  android.view.animation.LinearInterpolator;
@@ -13,15 +14,15 @@ import  robertapengelly.support.animation.ObjectAnimator;
 /** Draw a Material ripple. */
 class Ripple {
 
-    private static final Interpolator DECEL_INTERPOLATOR = new LogInterpolator();
-    private static final Interpolator LINEAR_INTERPOLATOR = new LinearInterpolator();
-    
     private static final float GLOBAL_SPEED = 1f;
     private static final float WAVE_OPACITY_DECAY_VELOCITY = (3f / GLOBAL_SPEED);
     private static final float WAVE_TOUCH_DOWN_ACCELERATION = (1024f * GLOBAL_SPEED);
     private static final float WAVE_TOUCH_UP_ACCELERATION = (3400f * GLOBAL_SPEED);
     
     private static final long RIPPLE_ENTER_DELAY = 80;
+    
+    private static final Interpolator DECEL_INTERPOLATOR = new LogInterpolator();
+    private static final Interpolator LINEAR_INTERPOLATOR = new LinearInterpolator();
     
     private final AnimatorListenerAdapter mAnimationListener = new AnimatorListenerAdapter() {
     
@@ -32,10 +33,10 @@ class Ripple {
     
     };
     
+    private final RippleDrawable mOwner;
+    
     /** Bounds used for computing max radius. */
     private final Rect mBounds;
-    
-    private final RippleDrawable mOwner;
     
     // Software animators.
     private ObjectAnimator mAnimOpacity, mAnimRadius, mAnimX, mAnimY;
@@ -44,6 +45,9 @@ class Ripple {
     private boolean mCanceled;
     
     private float mClampedStartingX, mClampedStartingY, mStartingX, mStartingY;
+    
+    /** Full-opacity color for drawing this ripple. */
+    private int mColorOpaque;
     
     /** Screen density used to adjust pixel-based velocities. */
     private float mDensity;
@@ -147,9 +151,9 @@ class Ripple {
     
         boolean hasContent = false;
         
-        final int paintAlpha = p.getAlpha();
+        p.setColor(mColorOpaque);
         
-        final int alpha = (int) (paintAlpha * mOpacity + 0.5f);
+        final int alpha = (int) (255 * mOpacity + 0.5f);
         final float radius = MathUtils.lerp(0, mOuterRadius, mTweenRadius);
         
         if ((alpha > 0) && (radius > 0)) {
@@ -158,9 +162,10 @@ class Ripple {
             final float y = MathUtils.lerp((mClampedStartingY - mBounds.exactCenterY()), mOuterY, mTweenY);
             
             p.setAlpha(alpha);
+            p.setStyle(Style.FILL);
+            
             c.drawCircle(x, y, radius, p);
             
-            p.setAlpha(paintAlpha);
             hasContent = true;
         
         }
@@ -288,7 +293,7 @@ class Ripple {
     }
     
     /** Returns the maximum bounds of the ripple relative to the ripple center. */
-    void getBounds(Rect bounds) {
+    public void getBounds(Rect bounds) {
     
         final int outerX = (int) mOuterX;
         final int outerY = (int) mOuterY;
@@ -347,8 +352,8 @@ class Ripple {
     
         if (!mHasMaxRadius) {
         
-            final float halfHeight = (mBounds.height() / 2f);
-            final float halfWidth = (mBounds.width() / 2f);
+            final float halfHeight = (mBounds.height() / 2.0f);
+            final float halfWidth = (mBounds.width() / 2.0f);
             
             mOuterRadius = (float) Math.sqrt(halfWidth * halfWidth + halfHeight * halfHeight);
             clampStartingPosition();
@@ -393,8 +398,10 @@ class Ripple {
     
     }
     
-    void setup(int maxRadius, float density) {
+    void setup(int maxRadius, int color, float density) {
     
+        mColorOpaque = color | 0xff000000;
+        
         if (maxRadius != RippleDrawable.RADIUS_AUTO) {
         
             mHasMaxRadius = true;

@@ -171,6 +171,7 @@ public class LayerDrawable extends LollipopDrawable implements Drawable.Callback
         childDrawable.mDrawable = layer;
         childDrawable.mId = id;
         childDrawable.mThemeAttrs = themeAttrs;
+        
         childDrawable.mInsetB = bottom;
         childDrawable.mInsetL = left;
         childDrawable.mInsetR = right;
@@ -579,7 +580,7 @@ public class LayerDrawable extends LollipopDrawable implements Drawable.Callback
                 
                 if (type != XmlPullParser.START_TAG)
                     throw new XmlPullParserException(parser.getPositionDescription()
-                            + ": <item> tag requires a 'drawable' attribute or child tag defining a drawable");
+                        + ": <item> tag requires a 'drawable' attribute or child tag defining a drawable");
                 
                 layer.mDrawable = LollipopDrawablesCompat.createFromXmlInner(r, parser, attrs, theme);
             

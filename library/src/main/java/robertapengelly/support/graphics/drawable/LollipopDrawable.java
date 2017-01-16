@@ -2,8 +2,12 @@ package robertapengelly.support.graphics.drawable;
 
 import  android.content.res.ColorStateList;
 import  android.content.res.Resources;
+import  android.content.res.TypedArray;
+import  android.graphics.Color;
 import  android.graphics.ColorFilter;
 import  android.graphics.PorterDuff;
+import  android.graphics.PorterDuff.Mode;
+import  android.graphics.PorterDuffColorFilter;
 import  android.graphics.Rect;
 import  android.graphics.drawable.Drawable;
 import  android.util.AttributeSet;
@@ -16,6 +20,10 @@ import  java.io.IOException;
 /** This drawable was created to support old API's */
 public abstract class LollipopDrawable extends Drawable {
 
+    static final PorterDuff.Mode DEFAULT_TINT_MODE = PorterDuff.Mode.SRC_IN;
+    
+    private boolean mVisible = true;
+    
     private ColorFilter mColorFilter;
     
     /** Applies the specified theme to this Drawable and its children. */
@@ -63,6 +71,40 @@ public abstract class LollipopDrawable extends Drawable {
     public void inflate(Resources r, XmlPullParser parser, AttributeSet attrs, Resources.Theme theme)
         throws XmlPullParserException, IOException {}
     
+    /** Inflate a Drawable from an XML resource. */
+    void inflateWithAttributes(TypedArray attrs, int visibleAttr) {
+        mVisible = attrs.getBoolean(visibleAttr, mVisible);
+    }
+    
+    /**
+     * Parses a {@link android.graphics.PorterDuff.Mode} from a tintMode
+     * attribute's enum value.
+     *
+     * @hide
+     */
+    public static PorterDuff.Mode parseTintMode(int value, Mode defaultMode) {
+    
+        switch (value) {
+        
+            case 3:
+                return Mode.SRC_OVER;
+            case 5:
+                return Mode.SRC_IN;
+            case 9:
+                return Mode.SRC_ATOP;
+            case 14:
+                return Mode.MULTIPLY;
+            case 15:
+                return Mode.SCREEN;
+            case 16:
+                return Mode.ADD;
+            default:
+                return defaultMode;
+        
+        }
+    
+    }
+    
     @Override
     public void setAlpha(int alpha) {}
     
@@ -70,6 +112,25 @@ public abstract class LollipopDrawable extends Drawable {
     public void setColorFilter(ColorFilter cf) {
         mColorFilter = cf;
     }
+    
+    /**
+     * Specifies the hotspot's location within the drawable.
+     *
+     * @param x The X coordinate of the center of the hotspot
+     * @param y The Y coordinate of the center of the hotspot
+     */
+    public void setHotspot(float x, float y) {}
+    
+    /**
+     * Sets the bounds to which the hotspot is constrained, if they should be
+     * different from the drawable bounds.
+     *
+     * @param left
+     * @param top
+     * @param right
+     * @param bottom
+     */
+    public void setHotspotBounds(int left, int top, int right, int bottom) {}
     
     /**
      * Specifies a tint for this drawable.
@@ -105,22 +166,43 @@ public abstract class LollipopDrawable extends Drawable {
     public void setTintMode(PorterDuff.Mode tintMode) {}
     
     /**
-     * Specifies the hotspot's location within the drawable.
+     * Set whether this Drawable is visible.  This generally does not impact
+     * the Drawable's behavior, but is a hint that can be used by some
+     * Drawables, for example, to decide whether run animations.
      *
-     * @param x The X coordinate of the center of the hotspot
-     * @param y The Y coordinate of the center of the hotspot
+     * @param visible Set to true if visible, false if not.
+     * @param restart You can supply true here to force the drawable to behave
+     *                as if it has just become visible, even if it had last
+     *                been set visible.  Used for example to force animations
+     *                to restart.
+     *
+     * @return boolean Returns true if the new visibility is different than
+     *         its previous state.
      */
-    public void setHotspot(float x, float y) {}
+    public boolean setVisible(boolean visible, boolean restart) {
     
-    /**
-     * Sets the bounds to which the hotspot is constrained, if they should be
-     * different from the drawable bounds.
-     *
-     * @param left
-     * @param top
-     * @param right
-     * @param bottom
-     */
-    public void setHotspotBounds(int left, int top, int right, int bottom) {}
+        boolean changed = (mVisible != visible);
+        
+        if (changed) {
+        
+            mVisible = visible;
+            invalidateSelf();
+        
+        }
+        
+        return changed;
+    
+    }
+    
+    /** Ensures the tint filter is consistent with the current tint color and mode. */
+    PorterDuffColorFilter updateTintFilter(PorterDuffColorFilter tintFilter, ColorStateList tint,
+        PorterDuff.Mode tintMode) {
+        
+        if ((tint == null) || (tintMode == null))
+            return null;
+        
+        final int color = tint.getColorForState(getState(), Color.TRANSPARENT);
+        return new PorterDuffColorFilter(color, tintMode);
+    }
 
 }

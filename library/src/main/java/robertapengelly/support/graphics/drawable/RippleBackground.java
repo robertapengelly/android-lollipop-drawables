@@ -3,6 +3,7 @@ package robertapengelly.support.graphics.drawable;
 import  android.graphics.Canvas;
 import  android.graphics.Color;
 import  android.graphics.Paint;
+import  android.graphics.Paint.Style;
 import  android.graphics.Rect;
 import  android.view.animation.LinearInterpolator;
 
@@ -26,15 +27,18 @@ class RippleBackground {
     private static final float WAVE_OUTER_SIZE_INFLUENCE_MAX = 200f;
     private static final float WAVE_OUTER_SIZE_INFLUENCE_MIN = 40f;
     
+    /** Bounds used for computing max radius. */
+    private final Rect mBounds;
+    
     private final RippleDrawable mOwner;
     
     private ObjectAnimator mAnimOuterOpacity;
     
-    /** Bounds used for computing max radius. */
-    private final Rect mBounds;
+    /** Maximum alpha value for drawing this ripple. */
+    private int mColorAlpha;
     
-    /** ARGB color for drawing this ripple. */
-    private int mColor;
+    /** Full-opacity color for drawing this ripple. */
+    private int mColorOpaque;
     
     /** Screen density used to adjust pixel-based velocities. */
     private float mDensity;
@@ -73,19 +77,19 @@ class RippleBackground {
     /** Draws the ripple centered at (0,0) using the specified paint. */
     boolean draw(Canvas c, Paint p) {
     
-        mColor = p.getColor();
-        
         boolean hasContent = false;
-        final int paintAlpha = p.getAlpha();
         
-        final int outerAlpha = (int) (paintAlpha * mOuterOpacity + 0.5f);
+        p.setColor(mColorOpaque);
+        
+        final int outerAlpha = (int) (mColorAlpha * mOuterOpacity + 0.5f);
         
         if ((outerAlpha > 0) && (mOuterRadius > 0)) {
         
             p.setAlpha(outerAlpha);
+            p.setStyle(Style.FILL);
+            
             c.drawCircle(mOuterX, mOuterY, mOuterRadius, p);
             
-            p.setAlpha(paintAlpha);
             hasContent = true;
         
         }
@@ -145,7 +149,7 @@ class RippleBackground {
         final int inflectionDuration = Math.max(0, (int) (1000 * (1 - mOuterOpacity)
             / (WAVE_OPACITY_DECAY_VELOCITY + outerOpacityVelocity) + 0.5f));
         
-        final int inflectionOpacity = (int) (Color.alpha(mColor) * (mOuterOpacity
+        final int inflectionOpacity = (int) (mColorAlpha * (mOuterOpacity
             + inflectionDuration * outerOpacityVelocity * outerSizeInfluence / 1000) + 0.5f);
         
         exitSoftware(opacityDuration, inflectionDuration, inflectionOpacity);
@@ -250,8 +254,11 @@ class RippleBackground {
     
     }
     
-    void setup(int maxRadius, float density) {
+    void setup(int maxRadius, int color, float density) {
     
+        mColorOpaque = color | 0xff000000;
+        mColorAlpha = (Color.alpha(color) / 2);
+        
         if (maxRadius != RippleDrawable.RADIUS_AUTO) {
         
             mHasMaxRadius = true;
