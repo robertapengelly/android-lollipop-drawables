@@ -697,24 +697,31 @@ public class GradientDrawable extends LollipopDrawable {
     @Override
     @TargetApi(21)
     public void getOutline(Outline outline) {
-    //TODO: Format code.
+    
         final GradientState st = mGradientState;
         final Rect bounds = getBounds();
+        
         // only report non-zero alpha if shape being drawn is opaque
         outline.setAlpha(st.mOpaqueOverShape && isOpaqueForState() ? (mAlpha / 255.0f) : 0.0f);
+        
         switch (st.mShape) {
+        
             case RECTANGLE:
                 if (st.mRadiusArray != null) {
+                
                     buildPathIfDirty();
                     outline.setConvexPath(mPath);
+                    
                     return;
+                
                 }
+                
                 float rad = 0;
-                if (st.mRadius > 0.0f) {
+                
+                if (st.mRadius > 0.0f)
                     // clamp the radius based on width & height, matching behavior in draw()
-                    rad = Math.min(st.mRadius,
-                            Math.min(bounds.width(), bounds.height()) * 0.5f);
-                }
+                    rad = Math.min(st.mRadius, (Math.min(bounds.width(), bounds.height()) * 0.5f));
+                
                 outline.setRoundRect(bounds, rad);
                 return;
             case OVAL:
@@ -723,15 +730,17 @@ public class GradientDrawable extends LollipopDrawable {
             case LINE:
                 // Hairlines (0-width stroke) must have a non-empty outline for
                 // shadows to draw correctly, so we'll use a very small width.
-                final float halfStrokeWidth = mStrokePaint == null ?
-                        0.0001f : mStrokePaint.getStrokeWidth() * 0.5f;
+                final float halfStrokeWidth = ((mStrokePaint == null) ? 0.0001f : mStrokePaint.getStrokeWidth() * 0.5f);
                 final float centerY = bounds.centerY();
-                final int top = (int) Math.floor(centerY - halfStrokeWidth);
+                
                 final int bottom = (int) Math.ceil(centerY + halfStrokeWidth);
+                final int top = (int) Math.floor(centerY - halfStrokeWidth);
+                
                 outline.setRect(bounds.left, top, bounds.right, bottom);
                 return;
             default:
                 // TODO: support more complex shapes
+        
         }
     
     }
@@ -825,38 +834,51 @@ public class GradientDrawable extends LollipopDrawable {
         }
     
     }
-    //TODO: Format code
+    
     private void initializeWithState(GradientState state) {
+    
         if (state.mColorStateList != null) {
+        
             final int[] currentState = getState();
+            
             final int stateColor = state.mColorStateList.getColorForState(currentState, 0);
             mFillPaint.setColor(stateColor);
-        } else if (state.mColors == null) {
+        
+        } else if (state.mColors == null)
             // If we don't have a solid color and we don't have a gradient,
             // the app is stroking the shape, set the color to the default
             // value of state.mSolidColor
             mFillPaint.setColor(0);
-        } else {
+        else
             // Otherwise, make sure the fill alpha is maxed out.
             mFillPaint.setColor(Color.BLACK);
-        }
+        
         mPadding = state.mPadding;
+        
         if (state.mStrokeWidth >= 0) {
+        
             mStrokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            mStrokePaint.setStyle(Paint.Style.STROKE);
             mStrokePaint.setStrokeWidth(state.mStrokeWidth);
+            mStrokePaint.setStyle(Paint.Style.STROKE);
+            
             if (state.mStrokeColorStateList != null) {
+            
                 final int[] currentState = getState();
-                final int strokeStateColor = state.mStrokeColorStateList.getColorForState(
-                        currentState, 0);
+                
+                final int strokeStateColor = state.mStrokeColorStateList.getColorForState(currentState, 0);
                 mStrokePaint.setColor(strokeStateColor);
+            
             }
+            
             if (state.mStrokeDashWidth != 0.0f) {
-                final DashPathEffect e = new DashPathEffect(
-                        new float[] { state.mStrokeDashWidth, state.mStrokeDashGap }, 0);
+            
+                final DashPathEffect e = new DashPathEffect(new float[] { state.mStrokeDashWidth, state.mStrokeDashGap }, 0);
                 mStrokePaint.setPathEffect(e);
+            
             }
+        
         }
+    
     }
     
     static boolean isOpaque(int color) {
@@ -1725,189 +1747,246 @@ public class GradientDrawable extends LollipopDrawable {
         }
     
     }
-    //TODO: Format code
+    
     final static class GradientState extends ConstantState {
-        public int mChangingConfigurations;
-        public int mShape = RECTANGLE;
-        public int mGradient = LINEAR_GRADIENT;
-        public int mAngle = 0;
-        public Orientation mOrientation;
-        public ColorStateList mColorStateList;
-        public ColorStateList mStrokeColorStateList;
-        public int[] mColors;
-        public int[] mTempColors; // no need to copy
-        public float[] mTempPositions; // no need to copy
-        public float[] mPositions;
-        public int mStrokeWidth = -1; // if >= 0 use stroking.
-        public float mStrokeDashWidth = 0.0f;
-        public float mStrokeDashGap = 0.0f;
-        public float mRadius = 0.0f; // use this if mRadiusArray is null
-        public float[] mRadiusArray = null;
-        public Rect mPadding = null;
-        public int mWidth = -1;
-        public int mHeight = -1;
-        public float mInnerRadiusRatio = DEFAULT_INNER_RADIUS_RATIO;
-        public float mThicknessRatio = DEFAULT_THICKNESS_RATIO;
-        public int mInnerRadius = -1;
-        public int mThickness = -1;
-        public boolean mDither = false;
+    
+        private boolean mOpaqueOverBounds;
+        private boolean mOpaqueOverShape;
+        private boolean mUseLevel;
+        private boolean mUseLevelForShape;
+        
         private float mCenterX = 0.5f;
         private float mCenterY = 0.5f;
         private float mGradientRadius = 0.5f;
+        
         private int mGradientRadiusType = RADIUS_TYPE_PIXELS;
-        private boolean mUseLevel;
-        private boolean mUseLevelForShape;
-        private boolean mOpaqueOverBounds;
-        private boolean mOpaqueOverShape;
-        TypedValue[] mThemeAttrs;
-        TypedValue[] mAttrSize;
+        
+        boolean mDither = false;
+        
+        float mInnerRadiusRatio = DEFAULT_INNER_RADIUS_RATIO;
+        float mRadius = 0.0f; // use this if mRadiusArray is null
+        float mStrokeDashGap = 0.0f;
+        float mStrokeDashWidth = 0.0f;
+        float mThicknessRatio = DEFAULT_THICKNESS_RATIO;
+        
+        float[] mTempPositions; // no need to copy
+        float[] mPositions;
+        float[] mRadiusArray = null;
+        
+        int mAngle = 0;
+        int mChangingConfigurations;
+        int mGradient = LINEAR_GRADIENT;
+        int mHeight = -1;
+        int mInnerRadius = -1;
+        int mShape = RECTANGLE;
+        int mStrokeWidth = -1; // if >= 0 use stroking.
+        int mThickness = -1;
+        int mWidth = -1;
+        
+        int[] mColors;
+        int[] mTempColors; // no need to copy
+        
+        ColorStateList mColorStateList;
+        ColorStateList mStrokeColorStateList;
+        
+        Orientation mOrientation;
+        Rect mPadding = null;
+        
+        TypedValue[] mAttrCorners;
         TypedValue[] mAttrGradient;
+        TypedValue[] mAttrPadding;
+        TypedValue[] mAttrSize;
         TypedValue[] mAttrSolid;
         TypedValue[] mAttrStroke;
-        TypedValue[] mAttrCorners;
-        TypedValue[] mAttrPadding;
-        GradientState(Orientation orientation, int[] colors) {
-            mOrientation = orientation;
-            setColors(colors);
-        }
-        public GradientState(GradientState state) {
-            mChangingConfigurations = state.mChangingConfigurations;
-            mShape = state.mShape;
-            mGradient = state.mGradient;
+        TypedValue[] mThemeAttrs;
+        
+        GradientState(GradientState state) {
+        
             mAngle = state.mAngle;
-            mOrientation = state.mOrientation;
+            mChangingConfigurations = state.mChangingConfigurations;
             mColorStateList = state.mColorStateList;
-            if (state.mColors != null) {
+            mGradient = state.mGradient;
+            mOrientation = state.mOrientation;
+            mShape = state.mShape;
+            
+            if (state.mColors != null)
                 mColors = state.mColors.clone();
-            }
-            if (state.mPositions != null) {
+            
+            if (state.mPositions != null)
                 mPositions = state.mPositions.clone();
-            }
-            mStrokeColorStateList = state.mStrokeColorStateList;
-            mStrokeWidth = state.mStrokeWidth;
-            mStrokeDashWidth = state.mStrokeDashWidth;
-            mStrokeDashGap = state.mStrokeDashGap;
+            
             mRadius = state.mRadius;
-            if (state.mRadiusArray != null) {
+            
+            mStrokeColorStateList = state.mStrokeColorStateList;
+            mStrokeDashGap = state.mStrokeDashGap;
+            mStrokeDashWidth = state.mStrokeDashWidth;
+            mStrokeWidth = state.mStrokeWidth;
+            
+            if (state.mRadiusArray != null)
                 mRadiusArray = state.mRadiusArray.clone();
-            }
-            if (state.mPadding != null) {
+            
+            if (state.mPadding != null)
                 mPadding = new Rect(state.mPadding);
-            }
-            mWidth = state.mWidth;
-            mHeight = state.mHeight;
-            mInnerRadiusRatio = state.mInnerRadiusRatio;
-            mThicknessRatio = state.mThicknessRatio;
-            mInnerRadius = state.mInnerRadius;
-            mThickness = state.mThickness;
-            mDither = state.mDither;
+            
+            mAttrCorners = state.mAttrCorners;
+            mAttrGradient = state.mAttrGradient;
+            mAttrPadding = state.mAttrPadding;
+            mAttrSize = state.mAttrSize;
+            mAttrSolid = state.mAttrSolid;
+            mAttrStroke = state.mAttrStroke;
             mCenterX = state.mCenterX;
             mCenterY = state.mCenterY;
+            mDither = state.mDither;
             mGradientRadius = state.mGradientRadius;
             mGradientRadiusType = state.mGradientRadiusType;
-            mUseLevel = state.mUseLevel;
-            mUseLevelForShape = state.mUseLevelForShape;
+            mHeight = state.mHeight;
+            mInnerRadius = state.mInnerRadius;
+            mInnerRadiusRatio = state.mInnerRadiusRatio;
             mOpaqueOverBounds = state.mOpaqueOverBounds;
             mOpaqueOverShape = state.mOpaqueOverShape;
             mThemeAttrs = state.mThemeAttrs;
-            mAttrSize = state.mAttrSize;
-            mAttrGradient = state.mAttrGradient;
-            mAttrSolid = state.mAttrSolid;
-            mAttrStroke = state.mAttrStroke;
-            mAttrCorners = state.mAttrCorners;
-            mAttrPadding = state.mAttrPadding;
+            mThicknessRatio = state.mThicknessRatio;
+            mThickness = state.mThickness;
+            mUseLevel = state.mUseLevel;
+            mUseLevelForShape = state.mUseLevelForShape;
+            mWidth = state.mWidth;
+        
         }
+        
+        GradientState(Orientation orientation, int[] colors) {
+        
+            mOrientation = orientation;
+            setColors(colors);
+        
+        }
+        
         @Override
         public boolean canApplyTheme() {
-            return mThemeAttrs != null;
+            return (mThemeAttrs != null);
         }
-        @Override
-        public Drawable newDrawable() {
-            return new GradientDrawable(this, null);
+        
+        private void computeOpacity() {
+        
+            mOpaqueOverBounds = false;
+            mOpaqueOverShape = false;
+            
+            if (mColors != null)
+                for (int i = 0; i < mColors.length; ++i)
+                    if (!isOpaque(mColors[i]))
+                        return;
+            
+            // An unfilled shape is not opaque over bounds or shape
+            if ((mColors == null) && (mColorStateList == null))
+                return;
+            
+            // Colors are opaque, so opaqueOverShape=true,
+            mOpaqueOverShape = true;
+            
+            // and opaqueOverBounds=true if shape fills bounds
+            mOpaqueOverBounds = ((mShape == RECTANGLE) && (mRadius <= 0) && (mRadiusArray == null);
+        
         }
-        @Override
-        public Drawable newDrawable(Resources res) {
-            return new GradientDrawable(this, null);
-        }
-        @Override
-        public Drawable newDrawable(Resources res, Theme theme) {
-            return new GradientDrawable(this, theme);
-        }
+        
         @Override
         public int getChangingConfigurations() {
             return mChangingConfigurations;
         }
-        public void setShape(int shape) {
-            mShape = shape;
-            computeOpacity();
+        
+        @Override
+        public Drawable newDrawable() {
+            return new GradientDrawable(this, null);
         }
-        public void setGradientType(int gradient) {
-            mGradient = gradient;
+        
+        @Override
+        public Drawable newDrawable(Resources res) {
+            return new GradientDrawable(this, null);
         }
-        public void setGradientCenter(float x, float y) {
-            mCenterX = x;
-            mCenterY = y;
+        
+        @Override
+        public Drawable newDrawable(Resources res, Theme theme) {
+            return new GradientDrawable(this, theme);
         }
-        public void setColors(int[] colors) {
-            mColors = colors;
-            mColorStateList = null;
-            computeOpacity();
-        }
-        public void setColorStateList(ColorStateList colorStateList) {
+        
+        void setColorStateList(ColorStateList colorStateList) {
+        
             mColors = null;
             mColorStateList = colorStateList;
+            
             computeOpacity();
+        
         }
-        private void computeOpacity() {
-            mOpaqueOverBounds = false;
-            mOpaqueOverShape = false;
-            if (mColors != null) {
-                for (int i = 0; i < mColors.length; ++i) {
-                    if (!isOpaque(mColors[i])) {
-                        return;
-                    }
-                }
-            }
-            // An unfilled shape is not opaque over bounds or shape
-            if (mColors == null && mColorStateList == null) {
-                return;
-            }
-            // Colors are opaque, so opaqueOverShape=true,
-            mOpaqueOverShape = true;
-            // and opaqueOverBounds=true if shape fills bounds
-            mOpaqueOverBounds = mShape == RECTANGLE
-                    && mRadius <= 0
-                    && mRadiusArray == null;
+        
+        void setColors(int[] colors) {
+        
+            mColors = colors;
+            mColorStateList = null;
+            
+            computeOpacity();
+        
         }
-        public void setStroke(
-                int width, ColorStateList colorStateList, float dashWidth, float dashGap) {
-            mStrokeWidth = width;
+        
+        void setCornerRadii(float[] radii) {
+        
+            mRadiusArray = radii;
+            
+            if (radii == null)
+                mRadius = 0;
+        
+        }
+        
+        void setCornerRadius(float radius) {
+        
+            if (radius < 0)
+                radius = 0;
+            
+            mRadius = radius;
+            mRadiusArray = null;
+        
+        }
+        
+        void setGradientCenter(float x, float y) {
+        
+            mCenterX = x;
+            mCenterY = y;
+        
+        }
+        
+        void setGradientRadius(float gradientRadius, int type) {
+        
+            mGradientRadius = gradientRadius;
+            mGradientRadiusType = type;
+        
+        }
+        
+        void setGradientType(int gradient) {
+            mGradient = gradient;
+        }
+        
+        void setShape(int shape) {
+        
+            mShape = shape;
+            computeOpacity();
+        
+        }
+        
+        void setStroke(int width, ColorStateList colorStateList, float dashWidth, float dashGap) {
+        
             mStrokeColorStateList = colorStateList;
             mStrokeDashWidth = dashWidth;
             mStrokeDashGap = dashGap;
+            mStrokeWidth = width;
+            
             computeOpacity();
+        
         }
-        public void setCornerRadius(float radius) {
-            if (radius < 0) {
-                radius = 0;
-            }
-            mRadius = radius;
-            mRadiusArray = null;
-        }
-        public void setCornerRadii(float[] radii) {
-            mRadiusArray = radii;
-            if (radii == null) {
-                mRadius = 0;
-            }
-        }
-        public void setSize(int width, int height) {
-            mWidth = width;
+        
+        void setSize(int width, int height) {
+        
             mHeight = height;
+            mWidth = width;
+        
         }
-        public void setGradientRadius(float gradientRadius, int type) {
-            mGradientRadius = gradientRadius;
-            mGradientRadiusType = type;
-        }
+    
     }
     
     /** Controls how the gradient is oriented relative to the drawable's bounds. */
