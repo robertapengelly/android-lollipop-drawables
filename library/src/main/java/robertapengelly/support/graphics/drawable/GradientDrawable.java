@@ -930,19 +930,6 @@ public class GradientDrawable extends LollipopDrawable {
     
     }
     
-    /**
-     * Obtains styled attributes from the theme, if available, or unstyled
-     * resources if the theme is null.
-     */
-    static TypedArray obtainAttributes(Resources res, Theme theme, AttributeSet set, int[] attrs) {
-    
-        if (theme == null)
-            return res.obtainAttributes(set, attrs);
-        
-        return theme.obtainStyledAttributes(set, attrs, 0, 0);
-    
-    }
-    
     @Override
     protected void onBoundsChange(Rect r) {
         super.onBoundsChange(r);
@@ -1883,7 +1870,7 @@ public class GradientDrawable extends LollipopDrawable {
             mOpaqueOverShape = true;
             
             // and opaqueOverBounds=true if shape fills bounds
-            mOpaqueOverBounds = ((mShape == RECTANGLE) && (mRadius <= 0) && (mRadiusArray == null);
+            mOpaqueOverBounds = ((mShape == RECTANGLE) && (mRadius <= 0) && (mRadiusArray == null));
         
         }
         

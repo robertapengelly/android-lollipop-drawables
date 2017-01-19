@@ -14,6 +14,7 @@ import  android.graphics.PorterDuff.Mode;
 import  android.graphics.PorterDuffXfermode;
 import  android.graphics.Rect;
 import  android.graphics.drawable.Drawable;
+import  android.os.Build;
 import  android.util.AttributeSet;
 import  android.util.DisplayMetrics;
 import  android.util.TypedValue;
@@ -531,7 +532,9 @@ public class RippleDrawable extends LayerDrawable {
             }
             
             dirtyBounds.union(drawingBounds);
-            dirtyBounds.union(super.getDirtyBounds());
+            
+            if (Build.VERSION.SDK_INT >= 21)
+                dirtyBounds.union(super.getDirtyBounds());
             
             return dirtyBounds;
         

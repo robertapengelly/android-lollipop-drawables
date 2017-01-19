@@ -30,9 +30,13 @@ public class LollipopDrawablesCompat {
     private static final LongSparseArray<WeakReference<Drawable.ConstantState>> sDrawableCache = new LongSparseArray<>();
     
     static {
+        registerDrawable(BitmapDrawable.class, "bitmap");
         registerDrawable(GradientDrawable.class, "shape");
         registerDrawable(InsetDrawable.class, "inset");
+        registerDrawable(LayerDrawable.class, "layer-list");
+        registerDrawable(NinePatchDrawable.class, "nine-patch");
         registerDrawable(RippleDrawable.class, "ripple");
+        registerDrawable(StateListDrawable.class, "selector");
     }
     
     /** Applies the specified theme to this Drawable and its children. */
@@ -154,6 +158,15 @@ public class LollipopDrawablesCompat {
                 drawable = clazz.newInstance();
             else if (name.indexOf('.') > 0)
                 drawable = (Drawable) Class.forName(name).newInstance();
+            
+            if (r != null) {
+            
+                if (name.equals("bitmap"))
+                    ((BitmapDrawable) drawable).setTargetDensity(r.getDisplayMetrics());
+                else if (name.equals("bitmap"))
+                    ((NinePatchDrawable) drawable).setTargetDensity(r.getDisplayMetrics());
+            
+            }
         
         } catch (Exception e) {
             throw new XmlPullParserException("Error while inflating drawable resource", parser, e);

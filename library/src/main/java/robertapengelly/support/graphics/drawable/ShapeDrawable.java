@@ -370,19 +370,6 @@ public class ShapeDrawable extends LollipopDrawable {
     
     }
     
-    /**
-     * Obtains styled attributes from the theme, if available, or unstyled
-     * resources if the theme is null.
-     */
-    static TypedArray obtainAttributes(Resources res, Theme theme, AttributeSet set, int[] attrs) {
-    
-        if (theme == null)
-            return res.obtainAttributes(set, attrs);
-        
-        return theme.obtainStyledAttributes(set, attrs, 0, 0);
-    
-    }
-    
     @Override
     protected void onBoundsChange(Rect bounds) {
     

@@ -2,6 +2,7 @@ package robertapengelly.support.graphics.drawable;
 
 import  android.content.res.ColorStateList;
 import  android.content.res.Resources;
+import  android.content.res.Resources.Theme;
 import  android.content.res.TypedArray;
 import  android.graphics.Color;
 import  android.graphics.ColorFilter;
@@ -77,12 +78,31 @@ public abstract class LollipopDrawable extends Drawable {
     }
     
     /**
+     * If this Drawable does transition animations between states, ask that
+     * it immediately jump to the current state and skip any active animations.
+     */
+    public void jumpToCurrentState() {}
+    
+    /**
+     * Obtains styled attributes from the theme, if available, or unstyled
+     * resources if the theme is null.
+     */
+    final static TypedArray obtainAttributes(Resources res, Theme theme, AttributeSet set, int[] attrs) {
+    
+        if (theme == null)
+            return res.obtainAttributes(set, attrs);
+        
+        return theme.obtainStyledAttributes(set, attrs, 0, 0);
+    
+    }
+    
+    /**
      * Parses a {@link android.graphics.PorterDuff.Mode} from a tintMode
      * attribute's enum value.
      *
      * @hide
      */
-    public static PorterDuff.Mode parseTintMode(int value, Mode defaultMode) {
+    static PorterDuff.Mode parseTintMode(int value, Mode defaultMode) {
     
         switch (value) {
         
@@ -203,6 +223,37 @@ public abstract class LollipopDrawable extends Drawable {
         
         final int color = tint.getColorForState(getState(), Color.TRANSPARENT);
         return new PorterDuffColorFilter(color, tintMode);
+    }
+    
+    /**
+     * This abstract class is used by {@link Drawable}s to store shared constant state and data
+     * between Drawables. {@link BitmapDrawable}s created from the same resource will for instance
+     * share a unique bitmap stored in their ConstantState.
+     *
+     * <p>
+     * {@link #newDrawable(Resources)} can be used as a factory to create new Drawable instances
+     * from this ConstantState.
+     * </p>
+     *
+     * Use {@link Drawable#getConstantState()} to retrieve the ConstantState of a Drawable. Calling
+     * {@link Drawable#mutate()} on a Drawable should typically create a new ConstantState for that
+     * Drawable.
+     */
+    public static abstract class ConstantState extends Drawable.ConstantState {
+    
+        /** Return whether this constant state can have a theme applied. */
+        public boolean canApplyTheme() {
+            return false;
+        }
+        
+        /**
+         * Create a new Drawable instance from its constant state. This must be
+         * implemented for drawables that can have a theme applied.
+         */
+        public Drawable newDrawable(Resources res, Theme theme) {
+            return newDrawable();
+        }
+    
     }
 
 }
