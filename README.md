@@ -22,7 +22,7 @@ Preview
     Step 2. Add the dependency
     
     dependencies {
-        compile 'com.github.robertapengelly:android-lollipop-drawables:1.0.2'
+        compile 'com.github.robertapengelly:android-lollipop-drawables:1.0.3'
     }
 
 # Usage
