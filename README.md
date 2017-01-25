@@ -4,7 +4,7 @@ Backported material drawables for use on pre-lollipop devices. Supports Android 
 
 Preview
 
-![lollipopdrawablesexample](https://cloud.githubusercontent.com/assets/5245027/21935050/ce4c0c1e-d9a3-11e6-9506-181e3190cae6.gif)
+![lollipopdrawablesexample](https://cloud.githubusercontent.com/assets/5245027/22297182/73ea5eea-e314-11e6-84e1-f1187133d636.gif)
 
 # Installation
 
@@ -22,7 +22,7 @@ Preview
     Step 2. Add the dependency
     
     dependencies {
-        compile 'com.github.robertapengelly:android-lollipop-drawables:1.0.3'
+        compile 'com.github.robertapengelly:android-lollipop-drawables:1.0.4'
     }
 
 # Usage
