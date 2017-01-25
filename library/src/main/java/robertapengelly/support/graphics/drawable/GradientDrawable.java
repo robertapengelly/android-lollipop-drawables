@@ -37,34 +37,6 @@ import  robertapengelly.support.lollipopdrawables.R;
  * <p>It can be defined in an XML file with the <code>&lt;shape></code> element. For more
  * information, see the guide to <a
  * href="{@docRoot}guide/topics/resources/drawable-resource.html">Drawable Resources</a>.</p>
- *
- * @attr ref android.R.styleable#GradientDrawable_visible
- * @attr ref android.R.styleable#GradientDrawable_shape
- * @attr ref android.R.styleable#GradientDrawable_innerRadiusRatio
- * @attr ref android.R.styleable#GradientDrawable_innerRadius
- * @attr ref android.R.styleable#GradientDrawable_thicknessRatio
- * @attr ref android.R.styleable#GradientDrawable_thickness
- * @attr ref android.R.styleable#GradientDrawable_useLevel
- * @attr ref android.R.styleable#GradientDrawableSize_android_width
- * @attr ref android.R.styleable#GradientDrawableSize_android_height
- * @attr ref android.R.styleable#GradientDrawableGradient_android_startColor
- * @attr ref android.R.styleable#GradientDrawableGradient_android_centerColor
- * @attr ref android.R.styleable#GradientDrawableGradient_android_endColor
- * @attr ref android.R.styleable#GradientDrawableGradient_android_useLevel
- * @attr ref android.R.styleable#GradientDrawableGradient_android_angle
- * @attr ref android.R.styleable#GradientDrawableGradient_android_type
- * @attr ref android.R.styleable#GradientDrawableGradient_android_centerX
- * @attr ref android.R.styleable#GradientDrawableGradient_android_centerY
- * @attr ref android.R.styleable#GradientDrawableGradient_android_gradientRadius
- * @attr ref android.R.styleable#GradientDrawableSolid_color
- * @attr ref android.R.styleable#GradientDrawableStroke_android_width
- * @attr ref android.R.styleable#GradientDrawableStroke_android_color
- * @attr ref android.R.styleable#GradientDrawableStroke_android_dashWidth
- * @attr ref android.R.styleable#GradientDrawableStroke_android_dashGap
- * @attr ref android.R.styleable#GradientDrawablePadding_android_left
- * @attr ref android.R.styleable#GradientDrawablePadding_android_top
- * @attr ref android.R.styleable#GradientDrawablePadding_android_right
- * @attr ref android.R.styleable#GradientDrawablePadding_android_bottom
  */
 public class GradientDrawable extends LollipopDrawable {
 
@@ -1660,7 +1632,8 @@ public class GradientDrawable extends LollipopDrawable {
         // Extract the theme attributes, if any.
         st.mAttrSolid = TypedArrayCompat.extractThemeAttrs(a);
         
-        final ColorStateList colorStateList = a.getColorStateList(R.styleable.GradientDrawableSolid_android_color);
+        final ColorStateList colorStateList = TypedArrayCompat.getColorStateList(theme, a, values,
+            R.styleable.GradientDrawableSolid_android_color);
         
         if (colorStateList != null)
             setColor(colorStateList);
@@ -1683,7 +1656,9 @@ public class GradientDrawable extends LollipopDrawable {
         final int width = a.getDimensionPixelSize(R.styleable.GradientDrawableStroke_android_width, defaultStrokeWidth);
         
         final float dashWidth = a.getDimension(R.styleable.GradientDrawableStroke_android_dashWidth, st.mStrokeDashWidth);
-        ColorStateList colorStateList = a.getColorStateList(R.styleable.GradientDrawableStroke_android_color);
+        
+        ColorStateList colorStateList = TypedArrayCompat.getColorStateList(theme, a, values,
+            R.styleable.GradientDrawableStroke_android_color);
         
         if (colorStateList == null)
             colorStateList = st.mStrokeColorStateList;

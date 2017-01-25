@@ -28,11 +28,13 @@ import  android.util.LayoutDirection;
 import  android.util.TypedValue;
 import  android.view.Gravity;
 
+import  java.io.InputStream;
 import  java.io.IOException;
 
 import  org.xmlpull.v1.XmlPullParser;
 import  org.xmlpull.v1.XmlPullParserException;
 
+import  robertapengelly.support.graphics.Insets;
 import  robertapengelly.support.lollipopdrawables.R;
 
 /**
@@ -47,14 +49,6 @@ import  robertapengelly.support.lollipopdrawables.R;
  * <p>Also see the {@link android.graphics.Bitmap} class, which handles the management and
  * transformation of raw bitmap graphics, and should be used when drawing to a
  * {@link android.graphics.Canvas}.</p>
- *
- * @attr ref android.R.styleable#BitmapDrawable_src
- * @attr ref android.R.styleable#BitmapDrawable_antialias
- * @attr ref android.R.styleable#BitmapDrawable_filter
- * @attr ref android.R.styleable#BitmapDrawable_dither
- * @attr ref android.R.styleable#BitmapDrawable_gravity
- * @attr ref android.R.styleable#BitmapDrawable_mipMap
- * @attr ref android.R.styleable#BitmapDrawable_tileMode
  */
 public class BitmapDrawable extends LollipopDrawable {
 
@@ -83,21 +77,13 @@ public class BitmapDrawable extends LollipopDrawable {
     // Mirroring matrix for using with Shaders
     private Matrix mMirrorMatrix;
     
+    /** Optical insets due to gravity. */
+    private Insets mOpticalInsets = Insets.NONE;
+    
     private PorterDuffColorFilter mTintFilter;
     
     /*package*/ BitmapDrawable() {
         mBitmapState = new BitmapState((Bitmap) null);
-    }
-    
-    /** Create a drawable by opening a given file path and decoding the bitmap. */
-    public BitmapDrawable(Resources res, String filepath) {
-        this(new BitmapState(BitmapFactory.decodeFile(filepath)), null, null);
-        
-        mBitmapState.mTargetDensity = mTargetDensity;
-        
-        if (mBitmapState.mBitmap == null)
-            android.util.Log.w("BitmapDrawable", "BitmapDrawable cannot decode " + filepath);
-    
     }
     
     /**
@@ -112,13 +98,24 @@ public class BitmapDrawable extends LollipopDrawable {
     }
     
     /** Create a drawable by decoding a bitmap from the given input stream. */
-    public BitmapDrawable(Resources res, java.io.InputStream is) {
+    public BitmapDrawable(Resources res, InputStream is) {
         this(new BitmapState(BitmapFactory.decodeStream(is)), null, null);
         
         mBitmapState.mTargetDensity = mTargetDensity;
         
         if (mBitmapState.mBitmap == null)
             android.util.Log.w("BitmapDrawable", "BitmapDrawable cannot decode " + is);
+    
+    }
+    
+    /** Create a drawable by opening a given file path and decoding the bitmap. */
+    public BitmapDrawable(Resources res, String filepath) {
+        this(new BitmapState(BitmapFactory.decodeFile(filepath)), null, null);
+        
+        mBitmapState.mTargetDensity = mTargetDensity;
+        
+        if (mBitmapState.mBitmap == null)
+            android.util.Log.w("BitmapDrawable", "BitmapDrawable cannot decode " + filepath);
     
     }
     
@@ -351,6 +348,13 @@ public class BitmapDrawable extends LollipopDrawable {
         
         return (((bitmap == null) || bitmap.hasAlpha() || (mBitmapState.mPaint.getAlpha() < 255)) ?
             PixelFormat.TRANSLUCENT : PixelFormat.OPAQUE);
+    
+    }
+    
+    public Insets getOpticalInsets() {
+    
+        updateDstRectAndInsetsIfDirty();
+        return mOpticalInsets;
     
     }
     
@@ -848,9 +852,20 @@ public class BitmapDrawable extends LollipopDrawable {
                     Gravity.apply(mBitmapState.mGravity, mBitmapWidth, mBitmapHeight, bounds, mDstRect, layoutDirection);
                 else
                     Gravity.apply(mBitmapState.mGravity, mBitmapWidth, mBitmapHeight, bounds, mDstRect);
+                
+                final int bottom = (bounds.bottom - mDstRect.bottom);
+                final int left = (mDstRect.left - bounds.left);
+                final int right = (bounds.right - mDstRect.right);
+                final int top = (mDstRect.top - bounds.top);
+                
+                mOpticalInsets = Insets.of(left, top, right, bottom);
             
-            } else 
+            } else {
+            
                 copyBounds(mDstRect);
+                mOpticalInsets = Insets.NONE;
+            
+            }
         
         }
         

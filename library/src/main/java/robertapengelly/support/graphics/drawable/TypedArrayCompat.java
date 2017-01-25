@@ -1,15 +1,22 @@
 package robertapengelly.support.graphics.drawable;
 
+import  android.content.Context;
 import  android.content.res.ColorStateList;
 import  android.content.res.Resources;
 import  android.content.res.TypedArray;
+import  android.graphics.Color;
 import  android.graphics.drawable.Drawable;
 import  android.os.Build;
 import  android.util.TypedValue;
 
+import  robertapengelly.support.lollipopdrawables.R;
+
 class TypedArrayCompat {
 
     private static final int[] TEMP_ARRAY = new int[1];
+    private static final ColorStateList[] DEFAULT_COLOR_STATE_LISTS = new ColorStateList[8];
+    
+    static boolean HAS_DEFAULT_COLOR_STATE_LISTS = false;
     
     /**
      * Extracts theme attributes from a typed array for later resolution using
@@ -65,6 +72,16 @@ class TypedArrayCompat {
     
     }
     
+    static ColorStateList getColorStateList(Resources res, int attr, Resources.Theme theme) {
+    
+        if (Build.VERSION.SDK_INT >= 23)
+            return res.getColorStateList(attr, theme);
+        
+        //noinspection deprecation
+        return res.getColorStateList(attr);
+    
+    }
+    
     /**
      * Retrieve the ColorStateList for the attribute at <var>index</var>.
      * The value may be either a single solid color or a reference to
@@ -94,10 +111,154 @@ class TypedArrayCompat {
         
         }
         
-        if (a != null)
-            return a.getColorStateList(index);
+        try {
+        
+            if (a != null)
+                return a.getColorStateList(index);
+        
+        } catch (Exception ex) {
+        
+            String res = a.getString(index);
+            
+            if (res != null) {
+            
+                final int[] attrs = new int[] {
+                    R.attr.colorPrimary,
+                    R.attr.colorPrimaryDark,
+                    R.attr.colorAccent,
+                    R.attr.colorControlNormal,
+                    R.attr.colorControlActivated,
+                    R.attr.colorControlHighlight,
+                    R.attr.colorButtonNormal,
+                    R.attr.colorEdgeEffect
+                };
+                
+                int resid = Integer.valueOf(res.substring(1));
+                
+                for (int i = 0; i < attrs.length; ++i)
+                    if (attrs[i] == resid)
+                        return DEFAULT_COLOR_STATE_LISTS[i];
+            
+            }
+        
+        }
         
         return null;
+    
+    }
+    
+    @SuppressWarnings("ResourceType")
+    static void getDefaultColorStateLists(Context context) {
+    
+        if (Build.VERSION.SDK_INT >= 21) {
+        
+            final int[] attrs = new int[] {
+                android.R.attr.colorPrimary,
+                android.R.attr.colorPrimaryDark,
+                android.R.attr.colorAccent,
+                android.R.attr.colorControlNormal,
+                android.R.attr.colorControlActivated,
+                android.R.attr.colorControlHighlight,
+                android.R.attr.colorButtonNormal,
+                android.R.attr.colorEdgeEffect
+            };
+            
+            TypedArray a = context.obtainStyledAttributes(attrs);
+            
+            try {
+            
+                DEFAULT_COLOR_STATE_LISTS[0] = a.getColorStateList(0);
+                DEFAULT_COLOR_STATE_LISTS[1] = a.getColorStateList(1);
+                DEFAULT_COLOR_STATE_LISTS[2] = a.getColorStateList(2);
+                DEFAULT_COLOR_STATE_LISTS[3] = a.getColorStateList(3);
+                DEFAULT_COLOR_STATE_LISTS[4] = a.getColorStateList(4);
+                DEFAULT_COLOR_STATE_LISTS[5] = a.getColorStateList(5);
+                DEFAULT_COLOR_STATE_LISTS[6] = a.getColorStateList(6);
+                DEFAULT_COLOR_STATE_LISTS[7] = a.getColorStateList(7);
+            
+            } finally {
+                a.recycle();
+            }
+        
+        }
+        
+        TypedArray a = context.obtainStyledAttributes(new int[] { android.R.attr.colorBackground });
+        
+        int themeColorBackground  = a.getColor(0, 0);
+        
+        a.recycle();
+        
+        // If the theme colorBackground is light, use our own light color, otherwise dark
+        final float[] hsv = new float[3];
+        Color.colorToHSV(themeColorBackground, hsv);
+        
+        final int[] attrs = new int[] {
+            R.attr.colorPrimary,
+            R.attr.colorPrimaryDark,
+            R.attr.colorAccent,
+            R.attr.colorControlNormal,
+            R.attr.colorControlActivated,
+            R.attr.colorControlHighlight,
+            R.attr.colorButtonNormal,
+            R.attr.colorEdgeEffect
+        };
+        
+        Resources res = context.getResources();
+        Resources.Theme theme = context.getTheme();
+        
+        for (int i = 0; i < attrs.length; ++i) {
+        
+            if (DEFAULT_COLOR_STATE_LISTS[i] == null) {
+            
+                if ((attrs[i] == R.attr.colorPrimary) || (attrs[i] == R.attr.colorEdgeEffect)) {
+                
+                    if (hsv[2] > 0.5f)
+                        DEFAULT_COLOR_STATE_LISTS[i] = getColorStateList(res, R.color.primary_material_light, theme);
+                    else
+                        DEFAULT_COLOR_STATE_LISTS[i] = getColorStateList(res, R.color.primary_material_dark, theme);
+                
+                } else if (attrs[i] == R.attr.colorPrimaryDark) {
+                
+                    if (hsv[2] > 0.5f)
+                        DEFAULT_COLOR_STATE_LISTS[i] = getColorStateList(res, R.color.primary_dark_material_light, theme);
+                    else
+                        DEFAULT_COLOR_STATE_LISTS[i] = getColorStateList(res, R.color.primary_dark_material_dark, theme);
+                
+                } else if ((attrs[i] == R.attr.colorAccent) || (attrs[i] == R.attr.colorControlActivated)) {
+                
+                    if (hsv[2] > 0.5f)
+                        DEFAULT_COLOR_STATE_LISTS[i] = getColorStateList(res, R.color.accent_material_light, theme);
+                    else
+                        DEFAULT_COLOR_STATE_LISTS[i] = getColorStateList(res, R.color.accent_material_dark, theme);
+                
+                } else if (attrs[i] == R.attr.colorControlNormal) {
+                
+                    if (hsv[2] > 0.5f)
+                        DEFAULT_COLOR_STATE_LISTS[i] = getColorStateList(res, R.color.secondary_text_material_light, theme);
+                    else
+                        DEFAULT_COLOR_STATE_LISTS[i] = getColorStateList(res, R.color.secondary_text_material_dark, theme);
+                
+                } else if (attrs[i] == R.attr.colorControlHighlight) {
+                
+                    if (hsv[2] > 0.5f)
+                        DEFAULT_COLOR_STATE_LISTS[i] = getColorStateList(res, R.color.ripple_material_light, theme);
+                    else
+                        DEFAULT_COLOR_STATE_LISTS[i] = getColorStateList(res, R.color.ripple_material_dark, theme);
+                
+                } else if (attrs[i] == R.attr.colorButtonNormal) {
+                
+                    if (hsv[2] > 0.5f)
+                        DEFAULT_COLOR_STATE_LISTS[i] = getColorStateList(res, R.color.btn_default_material_light, theme);
+                    else
+                        DEFAULT_COLOR_STATE_LISTS[i] = getColorStateList(res, R.color.btn_default_material_dark, theme);
+                
+                }
+            
+            }
+        
+        }
+        
+        HAS_DEFAULT_COLOR_STATE_LISTS = true;
     
     }
     

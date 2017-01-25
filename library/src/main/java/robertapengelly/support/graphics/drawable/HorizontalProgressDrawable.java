@@ -3,6 +3,7 @@ package robertapengelly.support.graphics.drawable;
 import  android.annotation.SuppressLint;
 import  android.content.Context;
 import  android.content.res.ColorStateList;
+import  android.content.res.Resources;
 import  android.content.res.TypedArray;
 import  android.graphics.Color;
 import  android.graphics.PorterDuff;
@@ -53,31 +54,53 @@ public class HorizontalProgressDrawable extends LayerDrawable {
         setId(2, android.R.id.progress);
         mProgressDrawable = (SingleHorizontalProgressDrawable) getDrawable(2);
         
-        int colorControlActivated = getColorFromAttrRes(R.attr.colorControlActivated, context);
+        TypedArray a = context.obtainStyledAttributes(new int[] { R.attr.colorControlActivated });
+        ColorStateList colorControlActivated = a.getColorStateList(0);
         
-        if (colorControlActivated == 0)
-            if (Build.VERSION.SDK_INT >= 21)
-                colorControlActivated = getColorFromAttrRes(android.R.attr.colorControlActivated, context);
+        a.recycle();
         
-        setTint(colorControlActivated);
+        if (colorControlActivated == null) {
+        
+            if (Build.VERSION.SDK_INT >= 21) {
+            
+                a = context.obtainStyledAttributes(new int[] { android.R.attr.colorControlActivated });
+                colorControlActivated = a.getColorStateList(0);
+                
+                a.recycle();
+            
+            }
+            
+            if (colorControlActivated == null) {
+            
+                a = context.obtainStyledAttributes(new int[] { android.R.attr.colorBackground });
+                
+                int themeColorBackground  = a.getColor(0, 0);
+                
+                a.recycle();
+                
+                // If the theme colorBackground is light, use our own light color, otherwise dark
+                final float[] hsv = new float[3];
+                Color.colorToHSV(themeColorBackground, hsv);
+                
+                Resources res = context.getResources();
+                Resources.Theme theme = context.getTheme();
+                
+                if (hsv[2] > 0.5f)
+                    colorControlActivated = TypedArrayCompat.getColorStateList(res, R.color.accent_material_light, theme);
+                else
+                    colorControlActivated = TypedArrayCompat.getColorStateList(res, R.color.accent_material_dark, theme);
+            
+            }
+        
+        }
+        
+        setTintList(colorControlActivated);
     
     }
     
     // See https://en.wikipedia.org/wiki/Alpha_compositing
     private float compositeAlpha(float alpha1, float alpha2) {
         return (alpha1 + alpha2 * (1 - alpha1));
-    }
-    
-    private int getColorFromAttrRes(int attr, Context context) {
-    
-        TypedArray a = context.obtainStyledAttributes(new int[] {attr});
-        
-        try {
-            return a.getColor(0, 0);
-        } finally {
-            a.recycle();
-        }
-    
     }
     
     private float getFloatFromAttrRes(int attrRes, Context context) {

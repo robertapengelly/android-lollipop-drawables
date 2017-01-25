@@ -69,8 +69,6 @@ import  robertapengelly.support.lollipopdrawables.R;
  * <code>&lt!-- An unbounded green ripple. --/>
  * &ltripple android:color="#ff0000ff" /></code>
  * </pre></p>
- *
- * @attr ref android.R.styleable#RippleDrawable_color
  */
 public class RippleDrawable extends LayerDrawable {
 

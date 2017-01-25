@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
+    <!-- The primary branding color for the app. By default, this is the color applied to the
+         action bar background. -->
+    <attr format="color" name="colorPrimary" />
+    
+    <!-- Dark variant of the primary branding color. By default, this is the color applied to
+         the status bar (via statusBarColor) and navigation bar (via navigationBarColor). -->
+    <attr format="color" name="colorPrimaryDark" />
+    
     <!-- Bright complement to the primary branding color. By default, this is the color applied
          to framework controls (via colorControlActivated). -->
     <attr format="color" name="colorAccent" />
+    
+    <!-- The color applied to framework controls in their normal state. -->
+    <attr format="color" name="colorControlNormal" />
     
     <!-- The color applied to framework controls in their activated (ex. checked) state. -->
     <attr format="color" name="colorControlActivated" />
@@ -11,8 +22,98 @@
     <!-- The color applied to framework control highlights (ex. ripples, list selectors). -->
     <attr format="color" name="colorControlHighlight" />
     
-    <!-- The color applied to framework controls in their normal state. -->
-    <attr format="color" name="colorControlNormal" />
+    <!-- The color applied to framework buttons in their normal state. -->
+    <attr format="color" name="colorButtonNormal" />
+    
+    <!-- The color applied to the edge effect on scrolling containers. -->
+    <attr format="color" name="colorEdgeEffect" />
+    
+    <declare-styleable name="AnimatedRotateDrawable">
+        <attr name="android:drawable" />
+        <attr format="integer" name="framesCount" />
+        <attr format="integer" name="frameDuration" />
+        <attr name="android:pivotX" />
+        <attr name="android:pivotY" />
+        <attr name="android:visible" />
+    </declare-styleable>
+    
+    <!-- Drawable used to render several states with animated transitions. Each state
+         is represented by a child drawable with an optional keyframe ID. -->
+    <declare-styleable name="AnimatedStateListDrawable">
+    
+        <!-- Indicates if the drawable needs to be mirrored when its layout direction is
+             RTL (right-to-left). -->
+        <attr name="android:autoMirrored"/>
+        
+        <!-- If true, the drawable's reported internal size will remain
+             constant as the state changes; the size is the maximum of all
+             of the states.  If false, the size will vary based on the
+             current state. -->
+        <attr name="android:constantSize" />
+        
+        <!-- Enables or disables dithering of the bitmap if the bitmap does not have the
+             same pixel configuration as the screen (for instance: a ARGB 8888 bitmap with
+             an RGB 565 screen). -->
+        <attr name="android:dither" />
+        
+        <!-- Amount of time (in milliseconds) to fade in a new state drawable. -->
+        <attr name="android:enterFadeDuration" />
+        
+        <!-- Amount of time (in milliseconds) to fade out an old state drawable. -->
+        <attr name="android:exitFadeDuration" />
+        
+        <!-- If true, allows the drawable's padding to change based on the
+             current state that is selected.  If false, the padding will
+             stay the same (based on the maximum padding of all the states).
+             Enabling this feature requires that the owner of the drawable
+             deal with performing layout when the state changes, which is
+             often not supported. -->
+        <attr name="android:variablePadding" />
+        
+        <!-- Indicates whether the drawable should be initially visible. -->
+        <attr name="android:visible" />
+    
+    </declare-styleable>
+    
+    <!-- Transition used to animate between states with keyframe IDs. -->
+    <declare-styleable name="AnimatedStateListDrawableTransition">
+    
+        <!-- Keyframe identifier for the starting state. -->
+        <attr format="reference" name="fromId" />
+        
+        <!-- Whether this transition is reversible. -->
+        <attr format="boolean" name="reversible" />
+
+        <!-- Keyframe identifier for the ending state. -->
+        <attr format="reference" name="toId" />
+    
+    </declare-styleable>
+    
+    <!-- Drawable used to render several animated frames. -->
+    <declare-styleable name="AnimationDrawable">
+    
+        <!-- If true, the animation will only run a single time and then
+             stop.  If false (the default), it will continually run,
+             restarting at the first frame after the last has finished. -->
+        <attr name="android:oneshot" />
+        
+        <attr name="android:variablePadding" />
+        
+        <attr name="android:visible" />
+    
+    </declare-styleable>
+    
+    <!-- Represents a single frame inside an AnimationDrawable. -->
+    <declare-styleable name="AnimationDrawableItem">
+    
+        <!-- Reference to a drawable resource to use for the frame.  If not
+             given, the drawable must be defined by the first child tag. -->
+        <attr name="android:drawable" />
+        
+        <!-- Amount of time (in milliseconds) to display this frame. -->
+        <attr name="android:duration" />
+    
+    </declare-styleable>
     
     <!-- Drawable used to draw bitmaps. -->
     <declare-styleable name="BitmapDrawable">

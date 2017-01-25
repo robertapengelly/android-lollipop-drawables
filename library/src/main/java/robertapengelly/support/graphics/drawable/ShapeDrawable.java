@@ -47,14 +47,6 @@ import  robertapengelly.support.lollipopdrawables.R;
  * document.</p>
  *
  * </div>
- *
- * @attr ref android.R.styleable#ShapeDrawablePadding_left
- * @attr ref android.R.styleable#ShapeDrawablePadding_top
- * @attr ref android.R.styleable#ShapeDrawablePadding_right
- * @attr ref android.R.styleable#ShapeDrawablePadding_bottom
- * @attr ref android.R.styleable#ShapeDrawable_color
- * @attr ref android.R.styleable#ShapeDrawable_width
- * @attr ref android.R.styleable#ShapeDrawable_height
  */
 public class ShapeDrawable extends LollipopDrawable {
 

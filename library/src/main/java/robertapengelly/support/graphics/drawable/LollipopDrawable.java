@@ -1,5 +1,6 @@
 package robertapengelly.support.graphics.drawable;
 
+import  android.annotation.SuppressLint;
 import  android.content.res.ColorStateList;
 import  android.content.res.Resources;
 import  android.content.res.Resources.Theme;
@@ -18,12 +19,12 @@ import  org.xmlpull.v1.XmlPullParserException;
 
 import  java.io.IOException;
 
+import  robertapengelly.support.graphics.Insets;
+
 /** This drawable was created to support old API's */
 public abstract class LollipopDrawable extends Drawable {
 
     static final PorterDuff.Mode DEFAULT_TINT_MODE = PorterDuff.Mode.SRC_IN;
-    
-    private boolean mVisible = true;
     
     private ColorFilter mColorFilter;
     
@@ -54,9 +55,16 @@ public abstract class LollipopDrawable extends Drawable {
         return mColorFilter;
     }
     
-    /** For internal use only. Individual results may vary. */
     public void getHotspotBounds(Rect outRect) {
         outRect.set(getBounds());
+    }
+    
+    /**
+     * Return in insets the layout insets suggested by this Drawable for use with alignment
+     * operations during layout.
+     */
+    public Insets getOpticalInsets() {
+        return Insets.NONE;
     }
     
     /**
@@ -66,6 +74,7 @@ public abstract class LollipopDrawable extends Drawable {
      * @param parser XML parser from which to inflate this Drawable
      * @param attrs  Base set of attribute values
      * @param theme  Theme to apply, may be null
+     *
      * @throws XmlPullParserException
      * @throws IOException
      */
@@ -74,7 +83,7 @@ public abstract class LollipopDrawable extends Drawable {
     
     /** Inflate a Drawable from an XML resource. */
     void inflateWithAttributes(TypedArray attrs, int visibleAttr) {
-        mVisible = attrs.getBoolean(visibleAttr, mVisible);
+        super.setVisible(attrs.getBoolean(visibleAttr, true), true);
     }
     
     /**
@@ -87,7 +96,7 @@ public abstract class LollipopDrawable extends Drawable {
      * Obtains styled attributes from the theme, if available, or unstyled
      * resources if the theme is null.
      */
-    final static TypedArray obtainAttributes(Resources res, Theme theme, AttributeSet set, int[] attrs) {
+    static TypedArray obtainAttributes(Resources res, Theme theme, AttributeSet set, int[] attrs) {
     
         if (theme == null)
             return res.obtainAttributes(set, attrs);
@@ -99,10 +108,9 @@ public abstract class LollipopDrawable extends Drawable {
     /**
      * Parses a {@link android.graphics.PorterDuff.Mode} from a tintMode
      * attribute's enum value.
-     *
-     * @hide
      */
-    static PorterDuff.Mode parseTintMode(int value, Mode defaultMode) {
+    @SuppressLint("NewApi")
+    public static PorterDuff.Mode parseTintMode(int value, Mode defaultMode) {
     
         switch (value) {
         
@@ -185,35 +193,6 @@ public abstract class LollipopDrawable extends Drawable {
      */
     public void setTintMode(PorterDuff.Mode tintMode) {}
     
-    /**
-     * Set whether this Drawable is visible.  This generally does not impact
-     * the Drawable's behavior, but is a hint that can be used by some
-     * Drawables, for example, to decide whether run animations.
-     *
-     * @param visible Set to true if visible, false if not.
-     * @param restart You can supply true here to force the drawable to behave
-     *                as if it has just become visible, even if it had last
-     *                been set visible.  Used for example to force animations
-     *                to restart.
-     *
-     * @return boolean Returns true if the new visibility is different than
-     *         its previous state.
-     */
-    public boolean setVisible(boolean visible, boolean restart) {
-    
-        boolean changed = (mVisible != visible);
-        
-        if (changed) {
-        
-            mVisible = visible;
-            invalidateSelf();
-        
-        }
-        
-        return changed;
-    
-    }
-    
     /** Ensures the tint filter is consistent with the current tint color and mode. */
     PorterDuffColorFilter updateTintFilter(PorterDuffColorFilter tintFilter, ColorStateList tint,
         PorterDuff.Mode tintMode) {
@@ -230,14 +209,11 @@ public abstract class LollipopDrawable extends Drawable {
      * between Drawables. {@link BitmapDrawable}s created from the same resource will for instance
      * share a unique bitmap stored in their ConstantState.
      *
-     * <p>
-     * {@link #newDrawable(Resources)} can be used as a factory to create new Drawable instances
-     * from this ConstantState.
-     * </p>
+     * <p>{@link #newDrawable(Resources)} can be used as a factory to create new Drawable instances
+     * from this ConstantState.</p>
      *
      * Use {@link Drawable#getConstantState()} to retrieve the ConstantState of a Drawable. Calling
-     * {@link Drawable#mutate()} on a Drawable should typically create a new ConstantState for that
-     * Drawable.
+     * {@link Drawable#mutate()} on a Drawable should typically create a new ConstantState for that Drawable.
      */
     public static abstract class ConstantState extends Drawable.ConstantState {
     

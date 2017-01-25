@@ -1,5 +1,6 @@
 package robertapengelly.support.graphics.drawable;
 
+import  android.content.Context;
 import  android.content.res.Resources;
 import  android.content.res.TypedArray;
 import  android.content.res.XmlResourceParser;
@@ -30,6 +31,9 @@ public class LollipopDrawablesCompat {
     private static final LongSparseArray<WeakReference<Drawable.ConstantState>> sDrawableCache = new LongSparseArray<>();
     
     static {
+        registerDrawable(AnimatedRotateDrawable.class, "animated-rotate");
+        registerDrawable(AnimatedStateListDrawable.class, "animated-selector");
+        registerDrawable(AnimationDrawable.class, "animation-list");
         registerDrawable(BitmapDrawable.class, "bitmap");
         registerDrawable(GradientDrawable.class, "shape");
         registerDrawable(InsetDrawable.class, "inset");
@@ -37,6 +41,7 @@ public class LollipopDrawablesCompat {
         registerDrawable(NinePatchDrawable.class, "nine-patch");
         registerDrawable(RippleDrawable.class, "ripple");
         registerDrawable(StateListDrawable.class, "selector");
+        registerDrawable(TransitionDrawable.class, "transition");
     }
     
     /** Applies the specified theme to this Drawable and its children. */
@@ -161,10 +166,10 @@ public class LollipopDrawablesCompat {
             
             if (r != null) {
             
-                if (name.equals("bitmap"))
+                /*if (name.equals("bitmap"))
                     ((BitmapDrawable) drawable).setTargetDensity(r.getDisplayMetrics());
                 else if (name.equals("bitmap"))
-                    ((NinePatchDrawable) drawable).setTargetDensity(r.getDisplayMetrics());
+                    ((NinePatchDrawable) drawable).setTargetDensity(r.getDisplayMetrics());*/
             
             }
         
@@ -214,6 +219,15 @@ public class LollipopDrawablesCompat {
         }
         
         return null;
+    
+    }
+    
+    public static Drawable getDrawable(Context context, int resid) {
+    
+        if (!TypedArrayCompat.HAS_DEFAULT_COLOR_STATE_LISTS)
+            TypedArrayCompat.getDefaultColorStateLists(context);
+        
+        return getDrawable(context.getResources(), resid, context.getTheme());
     
     }
     

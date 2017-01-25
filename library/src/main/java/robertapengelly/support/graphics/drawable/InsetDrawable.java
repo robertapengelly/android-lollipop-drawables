@@ -7,7 +7,6 @@ import  android.content.res.TypedArray;
 import  android.content.res.Resources.Theme;
 import  android.graphics.Canvas;
 import  android.graphics.ColorFilter;
-//import  android.graphics.Insets;
 import  android.graphics.Outline;
 import  android.graphics.PorterDuff.Mode;
 import  android.graphics.Rect;
@@ -21,6 +20,7 @@ import  java.io.IOException;
 import  org.xmlpull.v1.XmlPullParser;
 import  org.xmlpull.v1.XmlPullParserException;
 
+import  robertapengelly.support.graphics.Insets;
 import  robertapengelly.support.lollipopdrawables.R;
 
 /**
@@ -31,13 +31,6 @@ import  robertapengelly.support.lollipopdrawables.R;
  * <p>It can be defined in an XML file with the <code>&lt;inset></code> element. For more
  * information, see the guide to <a
  * href="{@docRoot}guide/topics/resources/drawable-resource.html">Drawable Resources</a>.</p>
- *
- * @attr ref android.R.styleable#InsetDrawable_visible
- * @attr ref android.R.styleable#InsetDrawable_drawable
- * @attr ref android.R.styleable#InsetDrawable_insetLeft
- * @attr ref android.R.styleable#InsetDrawable_insetRight
- * @attr ref android.R.styleable#InsetDrawable_insetTop
- * @attr ref android.R.styleable#InsetDrawable_insetBottom
  */
 public class InsetDrawable extends LollipopDrawable implements Drawable.Callback {
 
@@ -161,6 +154,15 @@ public class InsetDrawable extends LollipopDrawable implements Drawable.Callback
     @Override
     public int getOpacity() {
         return mInsetState.mDrawable.getOpacity();
+    }
+    
+    @Override
+    public Insets getOpticalInsets() {
+    
+        final Insets contentInsets = super.getOpticalInsets();
+        return Insets.of((contentInsets.left + mInsetState.mInsetLeft), (contentInsets.top + mInsetState.mInsetTop),
+            (contentInsets.right + mInsetState.mInsetRight), (contentInsets.bottom + mInsetState.mInsetBottom));
+    
     }
     
     @Override
