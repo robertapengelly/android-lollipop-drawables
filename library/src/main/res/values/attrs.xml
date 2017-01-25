@@ -13,8 +13,13 @@
          to framework controls (via colorControlActivated). -->
     <attr format="color" name="colorAccent" />
     
+<<<<<<< HEAD
     <!-- The color applied to framework controls in their normal state. -->
     <attr format="color" name="colorControlNormal" />
+=======
+    <!-- The color applied to framework buttons in their normal state. -->
+    <attr format="color" name="colorButtonNormal" />
+>>>>>>> f6653c4ec5ec2d3edb3df767edf01ab94bbdeb96
     
     <!-- The color applied to framework controls in their activated (ex. checked) state. -->
     <attr format="color" name="colorControlActivated" />
