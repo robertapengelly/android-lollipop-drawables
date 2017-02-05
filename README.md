@@ -4,7 +4,7 @@ Backported material drawables for use on pre-lollipop devices. Supports Android 
 
 Preview
 
-![lollipopdrawablesexample](https://cloud.githubusercontent.com/assets/5245027/21935050/ce4c0c1e-d9a3-11e6-9506-181e3190cae6.gif)
+![lollipopdrawablesexample](https://cloud.githubusercontent.com/assets/5245027/22297182/73ea5eea-e314-11e6-84e1-f1187133d636.gif)
 
 # Installation
 
@@ -22,15 +22,85 @@ Preview
     Step 2. Add the dependency
     
     dependencies {
-        compile 'com.github.robertapengelly:android-lollipop-drawables:1.0.3'
+        compile 'com.github.robertapengelly:android-lollipop-drawables:1.0.5'
     }
 
 # Usage
 
+AnimatedStateListDrawable
+
+    Defining your AnimatedStateListDrawable (drawable/animated_state_list_drawable_example.xml)
+    
+        <animated-selector xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+            
+            <item android:id="@+id/pressed"
+                android:state_pressed="true">
+                
+                <shape android:shape="rectangle">
+                    <corners android:radius="5dp" />
+                    <solid android:color="#ffff00ff" />
+                    <stroke android:color="#bcbcbc" android:width="1dp" />
+                </shape>
+            
+            </item>
+            
+            <item android:id="@+id/normal">
+            
+                <shape android:shape="rectangle">
+                    <corners android:radius="5dp" />
+                    <solid android:color="#ffff00ff" />
+                    <stroke android:color="#bcbcbc" android:width="1dp" />
+                </shape>
+            
+            </item>
+            
+            <transition app:fromId="@id/normal" app:toId="@id/pressed">
+                <animation-list>
+                    <item android:duration="15">
+                        <shape android:shape="rectangle">
+                            <corners android:radius="5dp" />
+                            <solid android:color="#40ff00ff" />
+                            <stroke android:color="#bcbcbc" android:width="1dp" />
+                        </shape>
+                    </item>
+                    <item android:duration="15">
+                        <shape android:shape="rectangle">
+                            <corners android:radius="5dp" />
+                            <solid android:color="#80ff00ff" />
+                            <stroke android:color="#bcbcbc" android:width="1dp" />
+                        </shape>
+                    </item>
+                    <item android:duration="15">
+                        <shape android:shape="rectangle">
+                            <corners android:radius="5dp" />
+                            <solid android:color="#bfff00ff" />
+                            <stroke android:color="#bcbcbc" android:width="1dp" />
+                        </shape>
+                    </item>
+                    <item android:duration="15">
+                        <shape android:shape="rectangle">
+                            <corners android:radius="5dp" />
+                            <solid android:color="#ffff00ff" />
+                            <stroke android:color="#bcbcbc" android:width="1dp" />
+                        </shape>
+                    </item>
+                </animation-list>
+            </transition>
+        
+        </animated-selector>
+    
+    Applying drawable to view
+    
+        import robertapengelly.support.graphics.drawable.LollipopDrawablesCompat;
+        
+        View view = findViewById(R.id.your_view);
+        view.setBackgroundDrawable(LollipopDrawablesCompat.getDrawable(getResources(), R.drawable.animated_state_list_drawable_example, getTheme()));
+
 Ripple Drawable<br />
 For more information about ripple drawables visit https://developer.android.com/reference/android/graphics/drawable/RippleDrawable.html
 
-    Styling without the Android Support Library add the following styles
+    Styling
     
     Pre-Honycomb devices (values/styles.xml)
     
@@ -44,7 +114,7 @@ For more information about ripple drawables visit https://developer.android.com/
             <item name="colorControlHighlight">?attr/colorAccent</item> <!-- you can set colorControlHighlight to any other color. -->
         </style>
     
-    Starting with Lollipop colorAccent and colorControlActivated are already defined. You can edit colorControlHighlight views further. (values-v21/styles.xml)
+    Starting with Lollipop colorControlHighligh is already defined. You can edit colorControlHighlight to customize your views further. (values-v21/styles.xml)
     
         <style name="AppTheme" parent="@android:style/Theme.Material.NoActionBar">
             <item name="android:colorControlHighlight">@color/colorControlHighlight</item> <!-- you can set colorControlHighlight to any other color. -->
@@ -88,7 +158,7 @@ For more information about ripple drawables visit https://developer.android.com/
 
 ProgressBar drawables
 
-    Styling without the Android Support Library add the following styles
+    Styling
     
     Pre-Honycomb devices (values/styles.xml)
     
