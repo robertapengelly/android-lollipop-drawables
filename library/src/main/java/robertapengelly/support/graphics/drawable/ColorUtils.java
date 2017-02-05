@@ -18,9 +18,7 @@ package robertapengelly.support.graphics.drawable;
 
 import android.graphics.Color;
 
-/**
- * A set of color-related utility methods, building upon those available in {@code Color}.
- */
+/** A set of color-related utility methods, building upon those available in {@code Color}. */
 final class ColorUtils {
 
     private static final double XYZ_WHITE_REFERENCE_X = 95.047;

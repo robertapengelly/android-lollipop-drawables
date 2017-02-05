@@ -23,23 +23,6 @@ import  robertapengelly.support.lollipopdrawables.R;
  * Each state Drawable is defined in a nested <code>&lt;item></code> element. For more
  * information, see the guide to <a
  * href="{@docRoot}guide/topics/resources/drawable-resource.html">Drawable Resources</a>.</p>
- *
- * @attr ref android.R.styleable#StateListDrawable_visible
- * @attr ref android.R.styleable#StateListDrawable_variablePadding
- * @attr ref android.R.styleable#StateListDrawable_constantSize
- * @attr ref android.R.styleable#DrawableStates_state_focused
- * @attr ref android.R.styleable#DrawableStates_state_window_focused
- * @attr ref android.R.styleable#DrawableStates_state_enabled
- * @attr ref android.R.styleable#DrawableStates_state_checkable
- * @attr ref android.R.styleable#DrawableStates_state_checked
- * @attr ref android.R.styleable#DrawableStates_state_selected
- * @attr ref android.R.styleable#DrawableStates_state_activated
- * @attr ref android.R.styleable#DrawableStates_state_active
- * @attr ref android.R.styleable#DrawableStates_state_single
- * @attr ref android.R.styleable#DrawableStates_state_first
- * @attr ref android.R.styleable#DrawableStates_state_middle
- * @attr ref android.R.styleable#DrawableStates_state_last
- * @attr ref android.R.styleable#DrawableStates_state_pressed
  */
 public class StateListDrawable extends DrawableContainer {
 

@@ -6,7 +6,6 @@ import  android.content.res.TypedArray;
 import  android.graphics.drawable.Drawable;
 import  android.util.AttributeSet;
 import  android.util.Log;
-import  android.util.SparseIntArray;
 import  android.util.StateSet;
 import  android.view.animation.Interpolator;
 
@@ -478,7 +477,7 @@ public class AnimatedStateListDrawable extends StateListDrawable {
         private static final int REVERSE_SHIFT = 32;
         
         final LongSparseArray mTransitions;
-        final SparseIntArray mStateIds;
+        final SparseArrayCompat mStateIds;
         
         AnimatedStateListState(AnimatedStateListState orig, AnimatedStateListDrawable owner, Resources res) {
             super(orig, owner, res);
@@ -490,7 +489,7 @@ public class AnimatedStateListDrawable extends StateListDrawable {
             
             } else {
             
-                mStateIds = new SparseIntArray();
+                mStateIds = new SparseArrayCompat();
                 mTransitions = new LongSparseArray(10);
             
             }
@@ -529,7 +528,7 @@ public class AnimatedStateListDrawable extends StateListDrawable {
         }
         
         int getKeyframeIdAt(int index) {
-            return ((index < 0) ? 0 : mStateIds.get(index, 0));
+            return ((index < 0) ? 0 : (int) mStateIds.get(index, 0));
         }
         
         int indexOfKeyframe(int[] stateSet) {

@@ -166,10 +166,10 @@ public class LollipopDrawablesCompat {
             
             if (r != null) {
             
-                /*if (name.equals("bitmap"))
+                if (name.equals("bitmap"))
                     ((BitmapDrawable) drawable).setTargetDensity(r.getDisplayMetrics());
                 else if (name.equals("bitmap"))
-                    ((NinePatchDrawable) drawable).setTargetDensity(r.getDisplayMetrics());*/
+                    ((NinePatchDrawable) drawable).setTargetDensity(r.getDisplayMetrics());
             
             }
         

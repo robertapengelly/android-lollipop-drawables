@@ -33,14 +33,6 @@ import  robertapengelly.support.lollipopdrawables.R;
  *
  * <p>For more information, see the guide to
  * <a href="{@docRoot}guide/topics/resources/drawable-resource.html">Drawable Resources</a>.</p>
- *
- * @attr ref R.styleable#LayerDrawable_paddingMode
- * @attr ref R.styleable#LayerDrawableItem_left
- * @attr ref R.styleable#LayerDrawableItem_top
- * @attr ref R.styleable#LayerDrawableItem_right
- * @attr ref R.styleable#LayerDrawableItem_bottom
- * @attr ref R.styleable#LayerDrawableItem_drawable
- * @attr ref R.styleable#LayerDrawableItem_id
  */
 public class LayerDrawable extends LollipopDrawable implements Drawable.Callback {
 
